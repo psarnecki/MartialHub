@@ -1,0 +1,8 @@
+<?php
+
+// Database configuration example
+
+const USERNAME = "your_username";
+const PASSWORD = "your_password";
+const HOST = "db";
+const DATABASE = "db";
