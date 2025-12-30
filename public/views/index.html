@@ -3,28 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/styles/main.css">
     <title>MartialHub - Dashboard</title>
 </head>
 <body>
     <nav>
-        <a href="/index">Home</a> | <a href="/events">All Events</a> | <a href="/rankings">Rankings</a> | <a href="/profile">My Profile</a>
+        <a href="/index" class="logo">MartialHub</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="/events">EVENTS</a>
+                <a href="/rankings">RANKINGS</a>
+                <a href="/profile">ATHLETES</a>
+            </div>
+            <div class="nav-buttons">
+                <a href="/register" class="btn-signup">CREATE ACCOUNT</a>
+                <a href="/login" class="btn-login">LOG IN</a>
+            </div>
+        </div>
     </nav>
-    
-    <h2>Upcoming Events (Makieta 1)</h2>
-    
-    <div class="event-container">
-        <?php if(isset($events)): ?>
-            <?php foreach ($events as $event): ?>
-                <div class="event-card" style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
-                    <img src="<?= $event->getImageUrl(); ?>" alt="Event Image" style="width: 200px;">
-                    <h3><?= $event->getTitle(); ?></h3>
-                    <p><b>Date:</b> <?= $event->getDate(); ?></p>
-                    <p><b>Location:</b> <?= $event->getLocation(); ?></p>
-                    <p><?= $event->getDescription(); ?></p>
-                    <a href="/eventDetails/<?= $event->getId(); ?>">View Details</a>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+
+    <main class="main-content">
+        <header class="hero-container">
+            <h1>POLISH MMA CHAMPIONSHIPS</h1>
+            <p>December 18 2025, Warsaw</p>
+            <div class="hero-btns">
+                <a href="#" class="btn-hero-red">SEE DETAILS</a>
+                <a href="/events" class="btn-hero-white">ALL EVENTS</a>
+            </div>
+        </header>
+
+        <div class="tabs-container">
+            <a href="#" class="tab active">UPCOMING</a>
+            <a href="#" class="tab">COMPLETED</a>
+        </div>
+
+        <section class="event-grid">
+            <?php if(isset($events)): ?>
+                <?php foreach ($events as $event): ?>
+                    <a href="/eventDetails/<?= $event->getId(); ?>" class="event-card">
+                        <div class="img-placeholder">
+                            <img src="<?= $event->getImageUrl(); ?>" alt="">
+                        </div>
+                        <h3><?= $event->getTitle(); ?></h3>
+                        <p><?= $event->getDate(); ?>, <?= $event->getLocation(); ?></p>
+                    </a>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </section>
+    </main>
 </body>
 </html>
