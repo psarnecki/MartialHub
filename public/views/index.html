@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="public/styles/main.css">
+    <script src="public/scripts/events.js" defer></script>
+
     <title>MartialHub - Dashboard</title>
 </head>
 <body>
@@ -23,21 +25,23 @@
     </nav>
 
     <main class="main-content">
-        <header class="hero-container">
-            <h1>POLISH MMA CHAMPIONSHIPS</h1>
-            <p>December 18 2025, Warsaw</p>
+        <?php if(isset($featuredEvent)): ?>
+        <header class="hero-container" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('<?= $featuredEvent->getImageUrl(); ?>');">
+            <h1><?= $featuredEvent->getTitle(); ?></h1>
+            <p><?= $featuredEvent->getFormattedDate(); ?>, <?= $featuredEvent->getLocation(); ?></p>
             <div class="hero-btns">
-                <a href="#" class="btn-hero-red">SEE DETAILS</a>
+                <a href="/eventDetails/<?= $featuredEvent->getId(); ?>" class="btn-hero-red">SEE DETAILS</a>
                 <a href="/events" class="btn-hero-white">ALL EVENTS</a>
             </div>
         </header>
+        <?php endif; ?>
 
         <div class="tabs-container">
-            <a href="#" class="tab active">UPCOMING</a>
-            <a href="#" class="tab">COMPLETED</a>
+            <a href="#" id="tab-upcoming" class="tab active" onclick="filterEvents('UPCOMING', event)">UPCOMING</a>
+            <a href="#" id="tab-completed" class="tab" onclick="filterEvents('COMPLETED', event)">COMPLETED</a>
         </div>
 
-        <section class="event-grid">
+        <section class="event-grid" id="event-grid">
             <?php if(isset($events)): ?>
                 <?php foreach ($events as $event): ?>
                     <a href="/eventDetails/<?= $event->getId(); ?>" class="event-card">
@@ -45,7 +49,7 @@
                             <img src="<?= $event->getImageUrl(); ?>" alt="">
                         </div>
                         <h3><?= $event->getTitle(); ?></h3>
-                        <p><?= $event->getDate(); ?>, <?= $event->getLocation(); ?></p>
+                        <p><?= $event->getFormattedDate(); ?>, <?= $event->getLocation(); ?></p>
                     </a>
                 <?php endforeach; ?>
             <?php endif; ?>

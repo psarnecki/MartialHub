@@ -43,7 +43,8 @@ CREATE TABLE events (
     date TIMESTAMP NOT NULL,
     location VARCHAR(255) NOT NULL,
     image_url TEXT,
-    capacity INTEGER DEFAULT 100
+    capacity INTEGER DEFAULT 100,
+    is_featured BOOLEAN DEFAULT FALSE
 );
 
 -- Fights table (users N:N events)
@@ -92,14 +93,15 @@ INSERT INTO user_details (user_id, firstname, lastname, club_id, wins, losses, d
     (5, 'Piotr', 'Lewandowski', 1, 8, 3, 2, 'Boxing enthusiast');
 
 -- Initial events data
-INSERT INTO events (title, description, date, location, image_url, capacity) VALUES 
+INSERT INTO events (title, description, date, location, image_url, capacity, is_featured) VALUES 
     (
         'Polish MMA Championship 2026',
         'National-level MMA championship featuring top amateur fighters.',
         '2026-10-18 10:00:00', -- UPCOMING
         'Warsaw',
         'public/img/mma_championship.jpg',
-        500
+        500,
+        TRUE
     ),
     (
         'Regional Judo Cup',
@@ -107,7 +109,8 @@ INSERT INTO events (title, description, date, location, image_url, capacity) VAL
         '2025-10-15 09:00:00', -- FINISHED
         'Cracow',
         'public/img/judo_cup.jpg',
-        300
+        300,
+        FALSE
     ),
     (
         'Copa Silesia 8',
@@ -115,7 +118,8 @@ INSERT INTO events (title, description, date, location, image_url, capacity) VAL
         '2025-11-09 08:30:00', -- FINISHED
         'Warsaw',
         'public/img/bjj_open.jpg',
-        400
+        400,
+        FALSE
     ),
     (
         'High Kick 10',
@@ -123,7 +127,8 @@ INSERT INTO events (title, description, date, location, image_url, capacity) VAL
         '2026-03-21 18:00:00', -- UPCOMING
         'Gliwice',
         'public/img/kickboxing.jpg',
-        250
+        250,
+        FALSE
     ),
     (
         'ALMMA 219',
@@ -131,7 +136,8 @@ INSERT INTO events (title, description, date, location, image_url, capacity) VAL
         '2025-08-30 10:00:00', -- FINISHED
         'Obroniki Śląskie',
         'public/img/mma_beginners.jpg',
-        200
+        200,
+        FALSE
     ),
     (
         'Wrestling & Grappling Seminar',
@@ -139,7 +145,8 @@ INSERT INTO events (title, description, date, location, image_url, capacity) VAL
         '2026-07-12 11:00:00', -- UPCOMING
         'Cracow',
         'public/img/seminar.jpg',
-        80
+        80,
+        FALSE
     );
 
 -- Initial fights data

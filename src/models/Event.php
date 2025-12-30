@@ -8,6 +8,7 @@ class Event {
     private $date;
     private $location;
     private $imageUrl;
+    private $isFeatured;
 
     public function __construct(
         string $title,
@@ -15,7 +16,8 @@ class Event {
         string $date,
         string $location,
         string $imageUrl,
-        int $id = null
+        int $id = null,
+        bool $isFeatured = false
     ) {
         $this->title = $title;
         $this->description = $description;
@@ -23,6 +25,7 @@ class Event {
         $this->location = $location;
         $this->imageUrl = $imageUrl;
         $this->id = $id;
+        $this->isFeatured = $isFeatured;
     }
 
     public function getTitle(): string { 
@@ -37,6 +40,11 @@ class Event {
         return $this->date; 
     }
 
+    public function getFormattedDate(): string {
+        $date = new DateTime($this->date);
+        return $date->format('Y-m-d H:i');
+    }
+
     public function getLocation(): string { 
         return $this->location; 
     }
@@ -44,8 +52,12 @@ class Event {
     public function getImageUrl(): string { 
         return $this->imageUrl; 
     }
-    
+
     public function getId(): ?int { 
         return $this->id; 
+    }
+
+    public function isFeatured(): bool {
+        return $this->isFeatured;
     }
 }

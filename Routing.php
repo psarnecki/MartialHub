@@ -32,6 +32,10 @@ class Routing {
             "controller" => "EventController",
             "action" => "index"
         ],
+        "filterEvents" => [
+            "controller" => "EventController",
+            "action" => "filter"
+        ],
         "events" => [
             "controller" => "EventController",
             "action" => "events"
@@ -74,6 +78,7 @@ class Routing {
             case 'register':
             case 'index':
             case 'events':
+            case 'filterEvents':
             case 'eventDetails':
             case 'profile':
             case 'rankings':
