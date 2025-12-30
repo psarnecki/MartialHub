@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>MartialHub - Dashboard</title>
 </head>
 <body>
-    <h1>Index</h1>
+    <nav>
+        <a href="/index">Home</a> | <a href="/events">All Events</a> | <a href="/rankings">Rankings</a> | <a href="/profile">My Profile</a>
+    </nav>
+    
+    <h2>Upcoming Events (Makieta 1)</h2>
+    
+    <div class="event-container">
+        <?php if(isset($events)): ?>
+            <?php foreach ($events as $event): ?>
+                <div class="event-card" style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
+                    <img src="<?= $event->getImageUrl(); ?>" alt="Event Image" style="width: 200px;">
+                    <h3><?= $event->getTitle(); ?></h3>
+                    <p><b>Date:</b> <?= $event->getDate(); ?></p>
+                    <p><b>Location:</b> <?= $event->getLocation(); ?></p>
+                    <p><?= $event->getDescription(); ?></p>
+                    <a href="/eventDetails/<?= $event->getId(); ?>">View Details</a>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
 </body>
 </html>

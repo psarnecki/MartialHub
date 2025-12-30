@@ -1,18 +1,23 @@
 <?php
 
 require_once 'AppController.php';
+require_once __DIR__.'/../repository/EventRepository.php';
 
 class EventController extends AppController {
 
+    private $eventRepository;
+
+    public function __construct() {
+        $this->eventRepository = new EventRepository();
+    }
+
     public function index() {
-        return $this->render('index');
+        $events = $this->eventRepository->getEvents();
+        return $this->render('index', ['events' => $events]);
     }
 
     public function events() {
-        return $this->render('events');
-    }
-
-    public function eventDetails() {
-        return $this->render('event-details');
+        $events = $this->eventRepository->getEvents();
+        return $this->render('events', ['events' => $events]);
     }
 }
