@@ -1,7 +1,8 @@
 async function filterEvents(status, event) {
     event.preventDefault();
 
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(t => t.classList.remove('active'));
     event.currentTarget.classList.add('active');
 
     try {
@@ -19,7 +20,16 @@ async function filterEvents(status, event) {
         }
 
         const events = await response.json();
+        const countHeader = document.getElementById('results-count');
+
+        if (countHeader) {
+            countHeader.innerText = `FOUND ${events.length} EVENTS`;
+        }
+        
         const grid = document.getElementById('event-grid');
+        
+        const isDense = grid.classList.contains('events-grid-dense');
+        
         grid.innerHTML = ""; 
 
         if (events.length === 0) {
@@ -27,20 +37,33 @@ async function filterEvents(status, event) {
             return;
         }
 
-        events.forEach(event => {
+        events.forEach(eventData => {
             const card = document.createElement('a');
-            card.href = `/eventDetails/${event.id}`;
-            card.className = 'event-card';
-            card.innerHTML = `
-                <div class="img-placeholder">
-                    <img src="${event.imageUrl}" alt="">
-                </div>
-                <h3>${event.title}</h3>
-                <p>${event.date}, ${event.location}</p>
-            `;
+            card.href = `/eventDetails/${eventData.id}`;
+            
+            if (isDense) {
+                card.className = 'event-card-small';
+                card.innerHTML = `
+                    <div class="img-wrap-small">
+                        <img src="${eventData.imageUrl}" alt="">
+                    </div>
+                    <h3>${eventData.title}</h3>
+                    <p class="meta">${eventData.day}, ${eventData.location}</p>
+                    <p class="category">${eventData.discipline}</p>
+                `;
+            } else {
+                card.className = 'event-card';
+                card.innerHTML = `
+                    <div class="img-placeholder">
+                        <img src="${eventData.imageUrl}" alt="">
+                    </div>
+                    <h3>${eventData.title}</h3>
+                    <p>${eventData.fullDate}, ${eventData.location}</p>
+                `;
+            }
             grid.appendChild(card);
         });
     } catch (error) {
-        console.error("Fetch error:", error);
+        console.error("Error filtering events:", error);
     }
 }

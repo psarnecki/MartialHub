@@ -4,6 +4,7 @@
 class Event {
     private $id;
     private $title;
+    private $discipline;
     private $description;
     private $date;
     private $location;
@@ -12,6 +13,7 @@ class Event {
 
     public function __construct(
         string $title,
+        string $discipline,
         string $description,
         string $date,
         string $location,
@@ -20,6 +22,7 @@ class Event {
         bool $isFeatured = false
     ) {
         $this->title = $title;
+        $this->discipline = $discipline;
         $this->description = $description;
         $this->date = $date;
         $this->location = $location;
@@ -30,6 +33,10 @@ class Event {
 
     public function getTitle(): string { 
         return $this->title; 
+    }
+
+    public function getDiscipline(): string {
+        return $this->discipline;
     }
 
     public function getDescription(): string { 
@@ -43,6 +50,11 @@ class Event {
     public function getFormattedDate(): string {
         $date = new DateTime($this->date);
         return $date->format('Y-m-d H:i');
+    }
+
+    public function getFormattedDay(): string {
+        $date = new DateTime($this->date);
+        return $date->format('d.m.Y'); 
     }
 
     public function getLocation(): string { 

@@ -17,6 +17,7 @@ class EventRepository extends Repository {
         foreach ($events as $event) {
             $result[] = new Event(
                 $event['title'],
+                $event['discipline'],
                 $event['description'],
                 $event['date'],
                 $event['location'],
@@ -40,6 +41,7 @@ class EventRepository extends Repository {
 
         return new Event(
             $event['title'], 
+            $event['discipline'],
             $event['description'], 
             $event['date'],
             $event['location'], 
@@ -67,10 +69,39 @@ class EventRepository extends Repository {
         foreach ($events as $event) {
             $result[] = new Event(
                 $event['title'], 
+                $event['discipline'],
                 $event['description'], 
                 $event['date'],
                 $event['location'], 
                 $event['image_url'],
+                $event['id'], 
+                $event['is_featured']
+            );
+        }
+        return $result;
+    }
+
+    public function getEventsByTitle(string $searchString): array {
+        $result = [];
+        $searchString = '%' . strtolower($searchString) . '%';
+
+        $query = $this->database->connect()->prepare('
+            SELECT * FROM events 
+            WHERE LOWER(title) LIKE :search OR LOWER(location) LIKE :search
+            ORDER BY date ASC
+        ');
+        $query->bindParam(':search', $searchString, PDO::PARAM_STR);
+        $query->execute();
+        $events = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($events as $event) {
+            $result[] = new Event(
+                $event['title'], 
+                $event['discipline'],
+                $event['description'], 
+                $event['date'],
+                $event['location'], 
+                $event['image_url'], 
                 $event['id'], 
                 $event['is_featured']
             );

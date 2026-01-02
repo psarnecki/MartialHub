@@ -55,35 +55,6 @@
     font-size: 0.875rem;
 }
 
-.tabs-container {
-    background-color: var(--tab-bg);
-    height: 2.5rem;
-    border-radius: 0.625rem;
-    display: flex;
-    padding: 0.25rem;
-    margin-bottom: 1.875rem;
-}
-
-.tab {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: var(--text-gray);
-    font-weight: 700;
-    font-size: 0.8125rem;
-    border-radius: 0.4375rem;
-    transition: 0.2s;
-    padding: 0;
-}
-
-.tab.active {
-    background-color: var(--white);
-    color: var(--text-dark);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
 .event-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

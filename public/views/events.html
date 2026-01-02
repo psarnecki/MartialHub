@@ -3,9 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events</title>
+    <link rel="stylesheet" href="public/styles/main.css">
+    <link rel="stylesheet" href="public/styles/events.css">
+    <script src="public/scripts/events.js" defer></script>
+
+    <title>Events – MartialHub</title>
 </head>
 <body>
-    <h1>Events</h1>
+    <nav>
+        <a href="/index" class="logo">MartialHub</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="/events">EVENTS</a>
+                <a href="/rankings">RANKINGS</a>
+                <a href="/profile">ATHLETES</a>
+            </div>
+            <div class="nav-buttons">
+                <a href="/register" class="btn-signup">CREATE ACCOUNT</a>
+                <a href="/login" class="btn-login">LOG IN</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="events-page-container">
+            <aside class="filters-sidebar">
+                <div class="filter-input-group">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M19.3 18.2L14.6 13.5C17.4 10.1 17.1 5.1 13.8 2.1C10.5 -0.8 5.5 -0.7 2.4 2.4C-0.7 5.5 -0.8 10.5 2.1 13.8C5.1 17 10.1 17.4 13.5 14.6L18.2 19.3C18.5 19.6 19 19.6 19.3 19.3C19.6 19 19.6 18.5 19.3 18.2ZM1.5 8.2C1.5 4.5 4.5 1.5 8.2 1.5C11.9 1.5 15 4.5 15 8.2C15 11.9 11.9 15 8.2 15C4.5 15 1.5 11.9 1.5 8.2Z" fill="#964F4F"/></svg>
+                    <input class="search-input" type="text" placeholder="Search event name...">
+                </div>
+
+                <div class="filter-input-group">
+                    <select>
+                        <option>All disciplines</option>
+                        <option>MMA</option>
+                        <option>BJJ</option>
+                        <option>JUDO</option>
+                    </select>
+                </div>
+
+                <div class="filter-input-group">
+                    <select>
+                        <option>All Poland</option>
+                        <option>Warsaw</option>
+                        <option>Cracow</option>
+                    </select>
+                </div>
+
+                <div class="filter-input-group">
+                    <input class="date-input" type="text" placeholder="Select date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
+                </div>
+
+                <button class="btn-submit-filter">FILTER</button>
+            </aside>
+
+            <section class="results-area">
+                <div class="tabs-container">
+                    <a href="#" class="tab active" onclick="filterEvents('UPCOMING', event)">UPCOMING</a>
+                    <a href="#" class="tab" onclick="filterEvents('COMPLETED', event)">COMPLETED</a>
+                </div>
+
+                <h2 class="results-header-text" id="results-count">FOUND <?= count($events); ?> EVENTS</h2>
+
+                <div class="events-grid-dense" id="event-grid">
+                    <?php if(isset($events)): ?>
+                        <?php foreach ($events as $event): ?>
+                            <a href="/eventDetails/<?= $event->getId(); ?>" class="event-card-small">
+                                <div class="img-wrap-small">
+                                    <img src="<?= $event->getImageUrl(); ?>" alt="">
+                                </div>
+                                <h3><?= $event->getTitle(); ?></h3>
+                                <p class="meta"><?= $event->getFormattedDay(); ?>, <?= $event->getLocation(); ?></p>
+                                <p class="category"><?= $event->getDiscipline(); ?></p>
+                            </a>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </section>
+        </div>
+    </main>
 </body>
 </html>

@@ -39,6 +39,8 @@ class EventController extends AppController {
                 $response[] = [
                     'id' => $event->getId(),
                     'title' => $event->getTitle(),
+                    'discipline' => $event->getDiscipline(),
+                    'day' => $event->getFormattedDay(),
                     'date' => $event->getFormattedDate(), 
                     'location' => $event->getLocation(),
                     'imageUrl' => $event->getImageUrl()
@@ -51,7 +53,7 @@ class EventController extends AppController {
     }
 
     public function events() {
-        $events = $this->eventRepository->getEvents();
+        $events = $this->eventRepository->getEventsByStatus('UPCOMING');
         return $this->render('events', ['events' => $events]);
     }
 }

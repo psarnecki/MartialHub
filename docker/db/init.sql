@@ -39,6 +39,7 @@ CREATE TABLE user_details (
 CREATE TABLE events (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
+    discipline VARCHAR(50) DEFAULT 'N/A',
     description TEXT,
     date TIMESTAMP NOT NULL,
     location VARCHAR(255) NOT NULL,
@@ -93,9 +94,10 @@ INSERT INTO user_details (user_id, firstname, lastname, club_id, wins, losses, d
     (5, 'Piotr', 'Lewandowski', 1, 8, 3, 2, 'Boxing enthusiast');
 
 -- Initial events data
-INSERT INTO events (title, description, date, location, image_url, capacity, is_featured) VALUES 
+INSERT INTO events (title, discipline, description, date, location, image_url, capacity, is_featured) VALUES 
     (
         'Polish MMA Championship 2026',
+        'MMA',
         'National-level MMA championship featuring top amateur fighters.',
         '2026-10-18 10:00:00', -- UPCOMING
         'Warsaw',
@@ -105,6 +107,7 @@ INSERT INTO events (title, description, date, location, image_url, capacity, is_
     ),
     (
         'Regional Judo Cup',
+        'Judo',
         'Regional judo tournament for junior and senior competitors.',
         '2025-10-15 09:00:00', -- FINISHED
         'Cracow',
@@ -114,6 +117,7 @@ INSERT INTO events (title, description, date, location, image_url, capacity, is_
     ),
     (
         'Copa Silesia 8',
+        'BJJ',
         'Brazilian Jiu-Jitsu open tournament with gi and no-gi divisions.',
         '2025-11-09 08:30:00', -- FINISHED
         'Warsaw',
@@ -123,6 +127,7 @@ INSERT INTO events (title, description, date, location, image_url, capacity, is_
     ),
     (
         'High Kick 10',
+        'Kickboxing',
         'Professional and amateur kickboxing bouts under K-1 rules.',
         '2026-03-21 18:00:00', -- UPCOMING
         'Gliwice',
@@ -132,6 +137,7 @@ INSERT INTO events (title, description, date, location, image_url, capacity, is_
     ),
     (
         'ALMMA 219',
+        'MMA',
         'Entry-level MMA tournament designed for debuting fighters.',
         '2025-08-30 10:00:00', -- FINISHED
         'Obroniki Śląskie',
@@ -141,11 +147,22 @@ INSERT INTO events (title, description, date, location, image_url, capacity, is_
     ),
     (
         'Wrestling & Grappling Seminar',
+        'Wrestling/Grappling',
         'Technical seminar led by international coaches.',
         '2026-07-12 11:00:00', -- UPCOMING
         'Cracow',
         'public/img/seminar.jpg',
         80,
+        FALSE
+    ),
+    (
+        'ALMMA 254',
+        'MMA',
+        'Amateur MMA League - tournament for debutants and beginner fighters.',
+        '2026-05-23 15:00:00', -- UPCOMING
+        'Sochaczew',
+        'public/img/almma_254.jpg',
+        300,
         FALSE
     );
 
