@@ -78,6 +78,7 @@ class EventRepository extends Repository {
                 $event['is_featured']
             );
         }
+
         return $result;
     }
 
@@ -106,6 +107,29 @@ class EventRepository extends Repository {
                 $event['is_featured']
             );
         }
+
         return $result;
+    }
+
+    public function getUniqueDisciplines(): array {
+        $query = $this->database->connect()->prepare('
+            SELECT DISTINCT UPPER(discipline) AS discipline 
+            FROM events 
+            WHERE discipline IS NOT NULL 
+            ORDER BY discipline ASC
+        ');
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getUniqueLocations(): array {
+        $query = $this->database->connect()->prepare('
+            SELECT DISTINCT UPPER(location) AS location 
+            FROM events 
+            WHERE location IS NOT NULL 
+            ORDER BY location ASC
+        ');
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_COLUMN);
     }
 }

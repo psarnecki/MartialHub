@@ -34,24 +34,25 @@
                 </div>
 
                 <div class="filter-input-group">
-                    <select>
-                        <option>All disciplines</option>
-                        <option>MMA</option>
-                        <option>BJJ</option>
-                        <option>JUDO</option>
+                    <select id="filter-discipline">
+                        <option>ALL DISCIPLINES</option>
+                        <?php if(isset($disciplines)): foreach($disciplines as $d): ?>
+                            <option value="<?= $d ?>"><?= $d ?></option>
+                        <?php endforeach; endif; ?>
                     </select>
                 </div>
 
                 <div class="filter-input-group">
-                    <select>
-                        <option>All Poland</option>
-                        <option>Warsaw</option>
-                        <option>Cracow</option>
+                    <select id="filter-location">
+                        <option>ALL LOCATIONS</option>
+                        <?php if(isset($locations)): foreach($locations as $l): ?>
+                            <option value="<?= $l ?>"><?= $l ?></option>
+                        <?php endforeach; endif; ?>
                     </select>
                 </div>
 
                 <div class="filter-input-group">
-                    <input class="date-input" type="text" placeholder="Select date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
+                    <input class="date-input" type="text" placeholder="SELECT DATE" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
                 </div>
 
                 <button class="btn-submit-filter">FILTER</button>

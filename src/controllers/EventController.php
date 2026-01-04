@@ -54,6 +54,13 @@ class EventController extends AppController {
 
     public function events() {
         $events = $this->eventRepository->getEventsByStatus('UPCOMING');
-        return $this->render('events', ['events' => $events]);
+        $disciplines = $this->eventRepository->getUniqueDisciplines();
+        $locations = $this->eventRepository->getUniqueLocations();
+
+        return $this->render('events', [
+            'events' => $events,
+            'disciplines' => $disciplines,
+            'locations' => $locations
+        ]);
     }
 }
