@@ -60,8 +60,8 @@
 
             <section class="results-area">
                 <div class="tabs-container">
-                    <a href="#" class="tab active" onclick="filterEvents('UPCOMING', event)">UPCOMING</a>
-                    <a href="#" class="tab" onclick="filterEvents('COMPLETED', event)">COMPLETED</a>
+                    <a href="#" class="tab active" data-status="UPCOMING" onclick="filterEvents('UPCOMING', event)">UPCOMING</a>
+                    <a href="#" class="tab" data-status="COMPLETED" onclick="filterEvents('COMPLETED', event)">COMPLETED</a>
                 </div>
 
                 <h2 class="results-header-text" id="results-count">FOUND <?= count($events); ?> EVENTS</h2>

@@ -38,8 +38,8 @@
         <?php endif; ?>
 
         <div class="tabs-container">
-            <a href="#" id="tab-upcoming" class="tab active" onclick="filterEvents('UPCOMING', event)">UPCOMING</a>
-            <a href="#" id="tab-completed" class="tab" onclick="filterEvents('COMPLETED', event)">COMPLETED</a>
+            <a href="#" id="tab-upcoming" class="tab active" data-status="UPCOMING" onclick="filterEvents('UPCOMING', event)">UPCOMING</a>
+            <a href="#" id="tab-completed" class="tab" data-status="COMPLETED" onclick="filterEvents('COMPLETED', event)">COMPLETED</a>
         </div>
 
         <section class="event-grid" id="event-grid">

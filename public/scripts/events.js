@@ -20,7 +20,7 @@ async function filterEvents(status, event) {
 
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
 
-    const clickedTab = event ? event.currentTarget : [...document.querySelectorAll('.tab')].find(t => t.innerText === status);
+    const clickedTab = event ? event.currentTarget : document.querySelector(`.tab[data-status="${status}"]`);
     if (clickedTab) clickedTab.classList.add('active');
 
     await applyFilters();
@@ -32,12 +32,17 @@ async function applySidebarFilters(event) {
 }
 
 async function applyFilters() {
+    const searchEl = document.getElementById('filter-search');
+    const disciplineEl = document.getElementById('filter-discipline');
+    const locationEl = document.getElementById('filter-location');
+    const dateEl = document.getElementById('filter-date');
+
     const data = {
         status: currentStatus,
-        search: document.getElementById('filter-search').value,
-        discipline: document.getElementById('filter-discipline').value,
-        location: document.getElementById('filter-location').value,
-        date: document.getElementById('filter-date').value
+        search: searchEl ? searchEl.value : "",
+        discipline: disciplineEl ? disciplineEl.value : "ALL DISCIPLINES",
+        location: locationEl ? locationEl.value : "ALL LOCATIONS",
+        date: dateEl ? dateEl.value : ""
     };
 
     try {
@@ -55,16 +60,19 @@ async function applyFilters() {
         }
 
         const events = await response.json();
-        const countHeader = document.getElementById('results-count');
 
+        const grid = document.getElementById('event-grid');
+        if (!grid) {
+            console.error('Event grid element not found.');
+            return;
+        }
+
+        const countHeader = document.getElementById('results-count');
         if (countHeader) {
             countHeader.innerText = `FOUND ${events.length} EVENTS`;
         }
-        
-        const grid = document.getElementById('event-grid');
-        
+
         const isDense = grid.classList.contains('events-grid-dense');
-        
         grid.innerHTML = ""; 
 
         if (events.length === 0) {
