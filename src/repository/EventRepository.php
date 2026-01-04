@@ -132,4 +132,67 @@ class EventRepository extends Repository {
         $query->execute();
         return $query->fetchAll(PDO::FETCH_COLUMN);
     }
+
+    public function getEventsWithFilters(array $filters): array {
+        $result = [];
+        $sql = 'SELECT * FROM events WHERE 1=1';
+        $params = [];
+
+        // Status
+        $now = date('Y-m-d H:i:s');
+        if (($filters['status'] ?? 'UPCOMING') === 'UPCOMING') {
+            $sql .= ' AND date >= :now';
+        } else {
+            $sql .= ' AND date < :now';
+        }
+        $params['now'] = $now;
+
+        // Text search
+        if (!empty($filters['search'])) {
+            $sql .= ' AND (LOWER(title) LIKE :search OR LOWER(location) LIKE :search)';
+            $params['search'] = '%' . strtolower($filters['search']) . '%';
+        }
+
+        // Discipline 
+        if (!empty($filters['discipline']) && $filters['discipline'] !== 'ALL DISCIPLINES') {
+            $sql .= ' AND UPPER(discipline) = :discipline';
+            $params['discipline'] = $filters['discipline'];
+        }
+
+        // Location
+        if (!empty($filters['location']) && $filters['location'] !== 'ALL LOCATIONS') {
+            $sql .= ' AND UPPER(location) = :location';
+            $params['location'] = $filters['location'];
+        }
+
+        // Specific date
+        if (!empty($filters['date'])) {
+            $sql .= ' AND date::date = :selected_date';
+            $params['selected_date'] = $filters['date'];
+        }
+
+        $sql .= ' ORDER BY date ASC';
+
+        $query = $this->database->connect()->prepare($sql);
+        foreach ($params as $key => $value) {
+            $query->bindValue(':' . $key, $value);
+        }
+        $query->execute();
+        $eventsData = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($eventsData as $event) {
+            $result[] = new Event(
+                $event['title'], 
+                $event['discipline'], 
+                $event['description'], 
+                $event['date'], 
+                $event['location'], 
+                $event['image_url'], 
+                $event['id'], 
+                $event['is_featured']
+            );
+        }
+        
+        return $result;
+    }
 }

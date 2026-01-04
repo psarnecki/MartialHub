@@ -1,9 +1,44 @@
-async function filterEvents(status, event) {
-    event.preventDefault();
+let currentStatus = 'UPCOMING';
+let searchTimeout;
 
-    const tabs = document.querySelectorAll('.tab');
-    tabs.forEach(t => t.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('filter-search');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                applyFilters();
+            }, 300);
+        });
+    }
+});
+
+async function filterEvents(status, event) {
+    if (event) event.preventDefault();
+    currentStatus = status;
+
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+    const clickedTab = event ? event.currentTarget : [...document.querySelectorAll('.tab')].find(t => t.innerText === status);
+    if (clickedTab) clickedTab.classList.add('active');
+
+    await applyFilters();
+}
+
+async function applySidebarFilters(event) {
+    if (event) event.preventDefault();
+    await applyFilters();
+}
+
+async function applyFilters() {
+    const data = {
+        status: currentStatus,
+        search: document.getElementById('filter-search').value,
+        discipline: document.getElementById('filter-discipline').value,
+        location: document.getElementById('filter-location').value,
+        date: document.getElementById('filter-date').value
+    };
 
     try {
         const response = await fetch("/filterEvents", {
@@ -11,7 +46,7 @@ async function filterEvents(status, event) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ status: status })
+            body: JSON.stringify(data)
         });
 
         if (!response.ok) {
@@ -33,7 +68,7 @@ async function filterEvents(status, event) {
         grid.innerHTML = ""; 
 
         if (events.length === 0) {
-            grid.innerHTML = "<p>No events found for this category.</p>";
+            grid.innerHTML = '<p class="no-results">No events found matching your criteria for ' + currentStatus.toLowerCase() + ' events.</p>';
             return;
         }
 
@@ -58,7 +93,7 @@ async function filterEvents(status, event) {
                         <img src="${eventData.imageUrl}" alt="">
                     </div>
                     <h3>${eventData.title}</h3>
-                    <p>${eventData.fullDate}, ${eventData.location}</p>
+                    <p>${eventData.date}, ${eventData.location}</p>
                 `;
             }
             grid.appendChild(card);

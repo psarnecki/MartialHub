@@ -30,7 +30,7 @@
             <aside class="filters-sidebar">
                 <div class="filter-input-group">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M19.3 18.2L14.6 13.5C17.4 10.1 17.1 5.1 13.8 2.1C10.5 -0.8 5.5 -0.7 2.4 2.4C-0.7 5.5 -0.8 10.5 2.1 13.8C5.1 17 10.1 17.4 13.5 14.6L18.2 19.3C18.5 19.6 19 19.6 19.3 19.3C19.6 19 19.6 18.5 19.3 18.2ZM1.5 8.2C1.5 4.5 4.5 1.5 8.2 1.5C11.9 1.5 15 4.5 15 8.2C15 11.9 11.9 15 8.2 15C4.5 15 1.5 11.9 1.5 8.2Z" fill="#964F4F"/></svg>
-                    <input class="search-input" type="text" placeholder="Search event name...">
+                    <input class="search-input" id="filter-search" type="text" placeholder="Search event name...">
                 </div>
 
                 <div class="filter-input-group">
@@ -52,10 +52,10 @@
                 </div>
 
                 <div class="filter-input-group">
-                    <input class="date-input" type="text" placeholder="SELECT DATE" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
+                    <input class="date-input" id="filter-date" type="text" placeholder="SELECT DATE" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
                 </div>
 
-                <button class="btn-submit-filter">FILTER</button>
+                <button class="btn-submit-filter" onclick="applySidebarFilters(event)">FILTER</button>
             </aside>
 
             <section class="results-area">

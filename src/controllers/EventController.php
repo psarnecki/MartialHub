@@ -27,12 +27,11 @@ class EventController extends AppController {
         if (strpos($contentType, "application/json") !== false) {
             $content = trim(file_get_contents("php://input"));
             $decoded = json_decode($content, true);
-            $status = $decoded['status'] ?? 'UPCOMING';
 
             header('Content-Type: application/json');
             http_response_code(200);
 
-            $events = $this->eventRepository->getEventsByStatus($status);
+            $events = $this->eventRepository->getEventsWithFilters($decoded);
             
             $response = [];
             foreach ($events as $event) {
@@ -41,7 +40,7 @@ class EventController extends AppController {
                     'title' => $event->getTitle(),
                     'discipline' => $event->getDiscipline(),
                     'day' => $event->getFormattedDay(),
-                    'date' => $event->getFormattedDate(), 
+                    'date' => $event->getFormattedDate(),
                     'location' => $event->getLocation(),
                     'imageUrl' => $event->getImageUrl()
                 ];

@@ -98,6 +98,13 @@
     gap: 0.9375rem;
 }
 
+.no-results {
+    grid-column: 1 / -1;
+    width: 100%;
+    color: var(--text-gray);
+    padding: 1rem 0;
+}
+
 .event-card-small {
     text-decoration: none;
     color: inherit;
