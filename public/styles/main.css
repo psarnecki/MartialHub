@@ -4,10 +4,12 @@
     --primary-red: #EB2933;
     --nav-black: #000000;
     --body-bg: #FCF7F7;
-    --text-dark: #1C0D0D;
+    --text-dark: #171212;
     --text-gray: #ABADB1;
     --tab-bg: #F2E8E8;
     --white: #FFFFFF;
+    --border-gray: #E5E8EB;
+    --border-pink: #E5DBDB;
 }
 
 * {

@@ -3,9 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <link rel="stylesheet" href="public/styles/main.css">
+    <link rel="stylesheet" href="public/styles/profile.css">
+
+    <title><?= $profile->getFullName(); ?> – MartialHub</title>
 </head>
 <body>
-    <h1>Profile</h1>
+    <nav>
+        <a href="/index" class="logo">MartialHub</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="/events">EVENTS</a>
+                <a href="/rankings">RANKINGS</a>
+                <a href="/profile">ATHLETES</a>
+            </div>
+            <div class="nav-buttons">
+                <a href="#" class="btn-signup">MY ACCOUNT</a>
+                <a href="/login" class="btn-login">LOG OUT</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="profile-main-content">
+        <section class="fighter-header">
+            <img src="<?= $profile->getImageUrl(); ?>" class="fighter-photo" alt="Athlete">
+            <div class="fighter-info-box">
+                <div>
+                    <h1 class="fighter-name"><?= strtoupper($profile->getFullName()); ?></h1>
+                    <p class="fighter-club-name"><?= strtoupper($profile->getClubName()); ?></p>
+                </div>
+                <?php if($profile->getRole() === 'user'): ?>
+                    <div class="record-badge">MMA RECORD: <?= $profile->getRecord(); ?></div>
+                <?php endif; ?>
+            </div>
+        </section>
+
+        <div class="profile-tabs">
+            <a href="#" class="p-tab active">MMA</a>
+            <a href="#" class="p-tab">BJJ</a>
+            <a href="#" class="p-tab">BOXING</a>
+            <a href="#" class="p-tab">KICKBOXING</a>
+        </div>
+
+        <h2 class="profile-section-title">STATISTICS (MMA)</h2>
+
+        <div class="stats-container">
+
+            <div class="stat-box"><span class="stat-name">WINS</span><span class="stat-number"><?= $profile->getWins(); ?></span></div>
+            <div class="stat-box"><span class="stat-name">UNANIMOUS DEC.</span><span class="stat-number">3</span></div>
+            <div class="stat-box"><span class="stat-name">SPLIT DEC.</span><span class="stat-number">4</span></div>
+            <div class="stat-box"><span class="stat-name">SUBMISSION</span><span class="stat-number">3</span></div>
+            <div class="stat-box"><span class="stat-name">KO/TKO</span><span class="stat-number">2</span></div>
+            <div class="stat-box"><span class="stat-name">OTHER</span><span class="stat-number">0</span></div>
+
+            <div class="stat-box"><span class="stat-name">LOSSES</span><span class="stat-number"><?= $profile->getLosses(); ?></span></div>
+            <div class="stat-box"><span class="stat-name">UNANIMOUS DEC.</span><span class="stat-number">1</span></div>
+            <div class="stat-box"><span class="stat-name">SPLIT DEC.</span><span class="stat-number">2</span></div>
+            <div class="stat-box"><span class="stat-name">SUBMISSION</span><span class="stat-number">1</span></div>
+            <div class="stat-box"><span class="stat-name">KO/TKO</span><span class="stat-number">0</span></div>
+            <div class="stat-box"><span class="stat-name">OTHER</span><span class="stat-number">0</span></div>
+
+            <div class="stat-box"><span class="stat-name">DRAWS</span><span class="stat-number"><?= $profile->getDraws(); ?></span></div>
+            <div class="stat-box"></div>
+            <div class="stat-box"></div>
+            <div class="stat-box"></div>
+            <div class="stat-box"></div>
+            <div class="stat-box"></div>
+        </div>
+
+        <h2 class="profile-section-title">FIGHT HISTORY</h2>
+        <div class="table-container">
+            <div class="fighter-table-wrapper">
+                <table class="fighter-table">
+                    <thead>
+                        <tr>
+                            <th>RESULT</th>
+                            <th>OPPONENT</th>
+                            <th>EVENT</th>
+                            <th>METHOD</th>
+                            <th>DATE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(!empty($history)): foreach($history as $fight): ?>
+                        <tr>
+                            <td>
+                                <span class="result-badge <?= strtolower($fight['result']) ?>-bg">
+                                    <?= $fight['result'] ?>
+                                </span>
+                            </td>
+                            <td><?= $fight['opponent_firstname'] . ' ' . $fight['opponent_lastname'] ?></td>
+                            <td class="text-gray"><?= $fight['event_name'] ?></td>
+                            <td class="text-gray"><?= $fight['method'] ?></td>
+                            <td class="text-gray"><?= date('d.m.Y', strtotime($fight['fight_date'])) ?></td>
+                        </tr>
+                        <?php endforeach; else: ?>
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: var(--text-gray); padding: 2rem;">
+                                No fight history available for this athlete.
+                            </td>
+                        </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

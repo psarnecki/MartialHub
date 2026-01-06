@@ -168,6 +168,20 @@ INSERT INTO events (title, discipline, description, date, location, image_url, c
 
 -- Initial fights data
 INSERT INTO fights (user_id, opponent_id, event_id, result, method, fight_date) VALUES 
-    (2, 3, 5, 'WIN', 'KO/TKO', '2025-08-15'),
-    (2, 4, 2, 'LOSS', 'Submission', '2025-10-15'),
-    (2, 3, 3, 'DRAW', 'Decision', '2024-11-09');
+    (3, 4, 5, 'WIN', 'KO/TKO', '2025-08-15'),
+    (3, 5, 2, 'LOSS', 'Submission', '2025-10-15'),
+    (3, 4, 3, 'DRAW', 'Decision', '2024-11-09');
+
+-- VIEW 1: Detailed fight history
+CREATE VIEW v_user_fights AS
+SELECT
+    f.user_id,
+    f.result,
+    f.method,
+    f.fight_date,
+    e.title AS event_name,
+    ud.firstname AS opponent_firstname,
+    ud.lastname AS opponent_lastname
+FROM fights f
+JOIN events e ON f.event_id = e.id
+JOIN user_details ud ON f.opponent_id = ud.user_id;
