@@ -14,12 +14,14 @@ class User {
         string $password,
         string $firstName,
         string $lastName,
-        int $id = null
+        string $role = 'user',
+        ?int $id = null
     ) {
         $this->email = $email;
         $this->password = $password;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+        $this->role = $role;
         $this->id = $id;
     }
 
@@ -37,6 +39,10 @@ class User {
 
     public function getLastName(): string {
         return $this->lastName;
+    }
+
+    public function getRole(): string {
+        return $this->role;
     }
 
     public function setPassword(string $password) {

@@ -13,9 +13,11 @@ class Routing {
     private function __construct() {}
 
     public static function getInstance(): Routing {
+
         if (self::$instance === null) {
             self::$instance = new Routing();
         }
+        
         return self::$instance;
     }
 
@@ -23,6 +25,10 @@ class Routing {
         "login" => [
             "controller" => "SecurityController",
             "action" => "login"
+        ],
+        "logout" => [
+            "controller" => "SecurityController",
+            "action" => "logout"
         ],
         "register" => [
             "controller" => "SecurityController",
@@ -64,6 +70,15 @@ class Routing {
             $path = 'index';
         }
 
+        if (preg_match('/^profile\/(\d+)$/', $path, $matches)) {
+            $controller = Routing::$routes["profile"]["controller"];
+            $action = Routing::$routes["profile"]["action"];
+            
+            $controllerObj = new $controller;
+            $controllerObj->$action((int)$matches[1]);
+            return;
+        }
+
         if (preg_match('/^events\/(\d+)$/', $path, $matches)) {
             $controller = Routing::$routes["eventDetails"]["controller"];
             $action = Routing::$routes["eventDetails"]["action"];
@@ -75,6 +90,7 @@ class Routing {
 
         switch($path) {
             case 'login':
+            case 'logout':
             case 'register':
             case 'index':
             case 'events':

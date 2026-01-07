@@ -11,8 +11,16 @@ class ProfileController extends AppController {
         $this->profileRepository = new ProfileRepository();
     }
 
-    public function profile() {
-        $userId = 3; // Dla testów
+    public function profile(?int $id = null) {
+        
+        if (!isset($_SESSION['user_id'])) {
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+
+            exit;
+        }
+
+        $userId = $id ?: $_SESSION['user_id'];
         
         $profile = $this->profileRepository->getUserProfile($userId);
         $history = $this->profileRepository->getUserHistory($userId);

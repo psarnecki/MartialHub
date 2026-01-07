@@ -77,11 +77,11 @@ INSERT INTO clubs (name, city) VALUES
 
 -- Initial users data
 INSERT INTO users (email, password, role) VALUES 
-    ('admin@martialhub.pl', '$2b$10$ZbzQrqD1vDhLJpYe/vzSbeDJHTUnVPCpwlXclkiFa8dO5gOAfg8tq', 'admin'),
-    ('maciej.kawulski@mail.com', '$2b$10$ZbzQrqD1vDhLJpYe/vzSbeDJHTUnVPCpwlXclkiFa8dO5gOAfg8tq', 'organizer'),
-    ('jan.kowalski@mail.com', '$2b$10$ZbzQrqD1vDhLJpYe/vzSbeDJHTUnVPCpwlXclkiFa8dO5gOAfg8tq', 'user'),
-    ('adam.nowak@mail.com', '$2b$10$ZbzQrqD1vDhLJpYe/vzSbeDJHTUnVPCpwlXclkiFa8dO5gOAfg8tq', 'user'),
-    ('piotr.lewandowski@mail.com', '$2b$10$ZbzQrqD1vDhLJpYe/vzSbeDJHTUnVPCpwlXclkiFa8dO5gOAfg8tq', 'user');
+    ('admin@martialhub.com', '$2y$10$m9iYSYk9tvwcGmGiwGLMzeLiVAs4DmnBTK85AttfuxsqW3nQNt6M6', 'admin'),
+    ('maciej.kawulski@martialhub.com', '$2y$10$VkD3RTJlEaVVVExuM/Lwl.pz2zsEFJvhlFxyiEZn8A0U3dmJp4tva', 'organizer'),
+    ('jan.kowalski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
+    ('adam.nowak@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
+    ('piotr.lewandowski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user');
 
 -- Initial user details
 INSERT INTO user_details (user_id, firstname, lastname, bio) VALUES

@@ -13,6 +13,7 @@ class SecurityController extends AppController {
     }
 
     public function login() {
+
         if (!$this->isPost()) {
             return $this->render('login');
         }
@@ -30,13 +31,27 @@ class SecurityController extends AppController {
             return $this->render('login', ['messages' => ['Wrong password!']]);
         }
 
-        // TODO create user session, cookie, token
+        $_SESSION['user_id'] = $user->getId();
+        $_SESSION['user_role'] = $user->getRole();
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/index");
+
+        exit;
     }
 
-     public function register() {
+    public function logout() {
+        
+        session_destroy();
+
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/login");
+
+        exit;
+    }
+
+    public function register() {
+
         if ($this->isGet()) {
             return $this->render('register');
         }
