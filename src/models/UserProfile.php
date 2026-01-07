@@ -33,7 +33,14 @@ class UserProfile {
     }
 
     public function getClubName(): string {
-        return $this->clubName ?: 'Independent';
+        if (!empty($this->clubName)) {
+            return $this->clubName;
+        }
+        return match ($this->role) {
+            'admin'     => 'ADMINISTRATOR',
+            'organizer' => 'OFFICIAL ORGANIZER',
+            default     => 'INDEPENDENT',
+        };
     }
 
     public function getRecord(): string {
