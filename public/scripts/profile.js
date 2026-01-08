@@ -28,16 +28,19 @@ async function fetchDisciplineData(discipline, userId) {
         winMethod: document.getElementById('win-method-label'),
         lossMethod: document.getElementById('loss-method-label'),
         winSub: document.getElementById('win-submission-label'),
-        lossSub: document.getElementById('loss-submission-label')
+        lossSub: document.getElementById('loss-submission-label'),
+        drawMajority: document.getElementById('draw-majority-label')
     };
 
     const methodText = (discipline === 'BJJ') ? 'POINTS' : 'KO/TKO';
     const subText = (discipline === 'BOXING' || discipline === 'KICKBOXING') ? 'MAJORITY DEC.' : 'SUBMISSION';
+    const drawSubText = 'MAJORITY DEC.';
 
     if (labels.winMethod) labels.winMethod.innerText = methodText;
     if (labels.lossMethod) labels.lossMethod.innerText = methodText;
     if (labels.winSub) labels.winSub.innerText = subText;
     if (labels.lossSub) labels.lossSub.innerText = subText;
+    if (labels.drawMajority) labels.drawMajority.innerText = drawSubText;
 
     try {
         const response = await fetch("/filterProfile", {
@@ -58,7 +61,7 @@ function updateProfileUI(fights) {
     let stats = {
         WIN: { total: 0, unanimous: 0, split: 0, submission: 0, method: 0, other: 0 },
         LOSS: { total: 0, unanimous: 0, split: 0, submission: 0, method: 0, other: 0 },
-        DRAW: 0
+        DRAW: { total: 0, unanimous: 0, split: 0, majority: 0, other: 0 }
     };
 
     const tbody = document.querySelector('.fighter-table tbody');
@@ -77,7 +80,11 @@ function updateProfileUI(fights) {
         const method = fight.method.toUpperCase();
 
         if (res === 'DRAW') {
-            stats.DRAW++;
+            stats.DRAW.total++;
+            if (method.includes('UNANIMOUS')) stats.DRAW.unanimous++;
+            else if (method.includes('SPLIT')) stats.DRAW.split++;
+            else if (method.includes('MAJORITY')) stats.DRAW.majority++;
+            else stats.DRAW.other++;
         } else if (stats[res]) {
             stats[res].total++;
             if (method.includes('UNANIMOUS')) stats[res].unanimous++;
@@ -114,9 +121,15 @@ function updateProfileUI(fights) {
     setEl('loss-method-count', stats.LOSS.method);
     setEl('loss-other', stats.LOSS.other);
 
-    setEl('total-draws', stats.DRAW);
+    setEl('total-draws', stats.DRAW.total);
+    setEl('draw-unanimous', stats.DRAW.unanimous);
+    setEl('draw-split', stats.DRAW.split);
+    setEl('draw-majority', stats.DRAW.majority);
+    setEl('draw-other', stats.DRAW.other);
 }
 
 function resetCounters() {
-    document.querySelectorAll('.stat-number').forEach(el => el.innerText = "0");
+    document.querySelectorAll('.stat-number').forEach(el => {
+        if(el.id) el.innerText = "0";
+    });
 }

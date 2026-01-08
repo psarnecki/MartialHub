@@ -69,6 +69,9 @@ ALTER TABLE fights ADD CONSTRAINT check_method CHECK (method IN
         'Unanimous Decision',
         'Split Decision',
         'Majority Decision',
+        'Unanimous Draw',
+        'Split Draw',
+        'Majority Draw',
         'Points',
         'Doctor Stoppage',
         'DQ'
@@ -225,11 +228,11 @@ FOR EACH ROW EXECUTE FUNCTION add_mirror_fight();
 
 -- Initial fights data
 INSERT INTO fights (user_id, opponent_id, event_id, result, method, fight_date) VALUES 
-    (3, 4, 5, 'WIN', 'KO/TKO', '2025-08-30'),
+    (3, 4, 5, 'LOSS', 'KO/TKO', '2025-08-30'),
     (3, 5, 5, 'WIN', 'Submission', '2025-08-30'),
-    (3, 5, 5, 'LOSS', 'Unanimous Decision', '2025-08-30'),
+    (3, 5, 5, 'DRAW', 'Split Draw', '2025-08-30'),
     (3, 5, 2, 'LOSS', 'Submission', '2025-10-15'),
     (3, 5, 4, 'WIN', 'KO/TKO', '2026-03-21'),
-    (3, 4, 3, 'DRAW', 'Unanimous Decision', '2025-11-09'),
+    (3, 4, 3, 'DRAW', 'Majority Draw', '2025-11-09'),
     (3, 4, 7, 'WIN', 'Submission', '2026-05-23'),
     (3, 5, 7, 'WIN', 'Majority Decision', '2026-05-23');
