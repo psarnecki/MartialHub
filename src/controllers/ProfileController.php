@@ -34,4 +34,24 @@ class ProfileController extends AppController {
             'history' => $history
         ]);
     }
+
+    public function filterProfile() {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if (strpos($contentType, "application/json") !== false) {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+            
+            $discipline = strtoupper($decoded['discipline']);
+            $userId = $decoded['userId'];
+
+            header('Content-Type: application/json');
+            
+            $history = $this->profileRepository->getUserHistoryByDiscipline($userId, $discipline);
+            
+            echo json_encode($history);
+
+            exit;
+        }
+    }
 }

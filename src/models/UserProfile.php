@@ -2,6 +2,7 @@
 
 
 class UserProfile {
+    private $id;
     private $firstName;
     private $lastName;
     private $role;
@@ -12,7 +13,8 @@ class UserProfile {
     private $bio;
     private $imageUrl;
 
-    public function __construct($firstName, $lastName, $role, $clubName, $wins, $losses, $draws, $bio, $imageUrl) {
+    public function __construct($id, $firstName, $lastName, $role, $clubName, $wins, $losses, $draws, $bio, $imageUrl) {
+        $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->role = $role;
@@ -22,6 +24,10 @@ class UserProfile {
         $this->draws = $draws;
         $this->bio = $bio;
         $this->imageUrl = $imageUrl;
+    }
+
+    public function getId(): int {
+        return $this->id;
     }
 
     public function getFullName(): string {

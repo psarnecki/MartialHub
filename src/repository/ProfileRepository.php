@@ -20,6 +20,7 @@ class ProfileRepository extends Repository {
         if (!$data) return null;
 
         return new UserProfile(
+            $data['user_id'],
             $data['firstname'], 
             $data['lastname'], 
             $data['role'], 
@@ -37,6 +38,19 @@ class ProfileRepository extends Repository {
             SELECT * FROM v_user_fights WHERE user_id = :id ORDER BY fight_date DESC
         ');
         $query->bindParam(':id', $userId, PDO::PARAM_INT);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getUserHistoryByDiscipline(int $userId, string $discipline): array {
+        $query = $this->database->connect()->prepare('
+            SELECT * FROM v_user_fights 
+            WHERE user_id = :id AND UPPER(discipline) = :discipline 
+            ORDER BY fight_date DESC
+        ');
+        $query->bindParam(':id', $userId, PDO::PARAM_INT);
+        $query->bindParam(':discipline', $discipline, PDO::PARAM_STR);
         $query->execute();
 
         return $query->fetchAll(PDO::FETCH_ASSOC);

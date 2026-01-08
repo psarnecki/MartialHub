@@ -54,6 +54,10 @@ class Routing {
             "controller" => "ProfileController",
             "action" => "profile"
         ],
+        "filterProfile" => [
+            "controller" => "ProfileController", 
+            "action" => "filterProfile"
+        ],
         "rankings" => [
             "controller" => "RankingController",
             "action" => "rankings"
@@ -97,6 +101,7 @@ class Routing {
             case 'filterEvents':
             case 'eventDetails':
             case 'profile':
+            case 'filterProfile':
             case 'rankings':
             case 'adminUsers':
                 $controller = Routing::$routes[$path]['controller'];

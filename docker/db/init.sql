@@ -55,14 +55,25 @@ CREATE TABLE fights (
     opponent_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
     result VARCHAR(10) NOT NULL, -- 'WIN', 'LOSS', 'DRAW'
-    method VARCHAR(100) NOT NULL, -- 'KO/TKO', 'Submission', 'Decision'
+    method VARCHAR(100) NOT NULL, -- 'KO/TKO', 'Submission', 'Unanimous Decision', 'Split Decision', 'Majority Decision', 'Points', 'Doctor Stoppage', 'DQ'
     fight_date DATE NOT NULL
 );
 
 -- Integrity constraints
-ALTER TABLE fights ADD CONSTRAINT check_result CHECK (result IN ('WIN', 'LOSS', 'DRAW'));
-ALTER TABLE fights ADD CONSTRAINT check_method CHECK (method IN ('KO/TKO', 'Submission', 'Decision'));
 ALTER TABLE fights ADD CONSTRAINT check_different_fighters CHECK (user_id <> opponent_id);
+ALTER TABLE fights ADD CONSTRAINT check_result CHECK (result IN ('WIN', 'LOSS', 'DRAW'));
+ALTER TABLE fights ADD CONSTRAINT check_method CHECK (method IN 
+    (
+        'KO/TKO',
+        'Submission',
+        'Unanimous Decision',
+        'Split Decision',
+        'Majority Decision',
+        'Points',
+        'Doctor Stoppage',
+        'DQ'
+    )
+);
 
 -- Initial clubs data
 INSERT INTO clubs (name, city) VALUES
@@ -168,9 +179,14 @@ INSERT INTO events (title, discipline, description, date, location, image_url, c
 
 -- Initial fights data
 INSERT INTO fights (user_id, opponent_id, event_id, result, method, fight_date) VALUES 
-    (3, 4, 5, 'WIN', 'KO/TKO', '2025-08-15'),
+    (3, 4, 5, 'WIN', 'KO/TKO', '2025-08-30'),
+    (3, 5, 5, 'WIN', 'Submission', '2025-08-30'),
+    (3, 5, 5, 'LOSS', 'Unanimous Decision', '2025-08-30'),
     (3, 5, 2, 'LOSS', 'Submission', '2025-10-15'),
-    (3, 4, 3, 'DRAW', 'Decision', '2024-11-09');
+    (3, 5, 4, 'WIN', 'KO/TKO', '2026-03-21'),
+    (3, 4, 3, 'DRAW', 'Unanimous Decision', '2025-11-09'),
+    (3, 4, 7, 'WIN', 'Submission', '2026-05-23'),
+    (3, 5, 7, 'WIN', 'Majority Decision', '2026-05-23');
 
 -- VIEW 1: Detailed fight history
 CREATE VIEW v_user_fights AS
@@ -180,6 +196,7 @@ SELECT
     f.method,
     f.fight_date,
     e.title AS event_name,
+    e.discipline,
     ud.firstname AS opponent_firstname,
     ud.lastname AS opponent_lastname
 FROM fights f
