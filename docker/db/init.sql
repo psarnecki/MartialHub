@@ -177,17 +177,6 @@ INSERT INTO events (title, discipline, description, date, location, image_url, c
         FALSE
     );
 
--- Initial fights data
-INSERT INTO fights (user_id, opponent_id, event_id, result, method, fight_date) VALUES 
-    (3, 4, 5, 'WIN', 'KO/TKO', '2025-08-30'),
-    (3, 5, 5, 'WIN', 'Submission', '2025-08-30'),
-    (3, 5, 5, 'LOSS', 'Unanimous Decision', '2025-08-30'),
-    (3, 5, 2, 'LOSS', 'Submission', '2025-10-15'),
-    (3, 5, 4, 'WIN', 'KO/TKO', '2026-03-21'),
-    (3, 4, 3, 'DRAW', 'Unanimous Decision', '2025-11-09'),
-    (3, 4, 7, 'WIN', 'Submission', '2026-05-23'),
-    (3, 5, 7, 'WIN', 'Majority Decision', '2026-05-23');
-
 -- VIEW 1: Detailed fight history
 CREATE VIEW v_user_fights AS
 SELECT
@@ -202,3 +191,45 @@ SELECT
 FROM fights f
 JOIN events e ON f.event_id = e.id
 JOIN user_details ud ON f.opponent_id = ud.user_id;
+
+-- TRIGGER 1: creates mirrored fight records for both fighters
+CREATE OR REPLACE FUNCTION add_mirror_fight()
+RETURNS TRIGGER AS $$
+DECLARE
+    mirror_result VARCHAR(10);
+BEGIN
+    IF NEW.result = 'WIN' THEN mirror_result := 'LOSS';
+    ELSIF NEW.result = 'LOSS' THEN mirror_result := 'WIN';
+    ELSE mirror_result := 'DRAW';
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM fights 
+        WHERE user_id = NEW.opponent_id 
+          AND opponent_id = NEW.user_id 
+          AND event_id = NEW.event_id
+          AND result = mirror_result
+          AND method = NEW.method
+    ) THEN
+        INSERT INTO fights (user_id, opponent_id, event_id, result, method, fight_date)
+        VALUES (NEW.opponent_id, NEW.user_id, NEW.event_id, mirror_result, NEW.method, NEW.fight_date);
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_after_fight_insert
+AFTER INSERT ON fights
+FOR EACH ROW EXECUTE FUNCTION add_mirror_fight();
+
+-- Initial fights data
+INSERT INTO fights (user_id, opponent_id, event_id, result, method, fight_date) VALUES 
+    (3, 4, 5, 'WIN', 'KO/TKO', '2025-08-30'),
+    (3, 5, 5, 'WIN', 'Submission', '2025-08-30'),
+    (3, 5, 5, 'LOSS', 'Unanimous Decision', '2025-08-30'),
+    (3, 5, 2, 'LOSS', 'Submission', '2025-10-15'),
+    (3, 5, 4, 'WIN', 'KO/TKO', '2026-03-21'),
+    (3, 4, 3, 'DRAW', 'Unanimous Decision', '2025-11-09'),
+    (3, 4, 7, 'WIN', 'Submission', '2026-05-23'),
+    (3, 5, 7, 'WIN', 'Majority Decision', '2026-05-23');
