@@ -51,13 +51,13 @@ async function fetchDisciplineData(discipline, userId) {
 
         if (!response.ok) throw new Error("JSON error");
         const fights = await response.json();
-        updateProfileUI(fights);
+        updateProfileUI(fights, discipline);
     } catch (error) {
         console.error("Error updating profile:", error);
     }
 }
 
-function updateProfileUI(fights) {
+function updateProfileUI(fights, discipline) {
     let stats = {
         WIN: { total: 0, unanimous: 0, split: 0, submission: 0, method: 0, other: 0 },
         LOSS: { total: 0, unanimous: 0, split: 0, submission: 0, method: 0, other: 0 },
@@ -69,9 +69,13 @@ function updateProfileUI(fights) {
     
     tbody.innerHTML = "";
 
+    const banner = document.querySelector('.record-badge');
+
     if (fights.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No history for this discipline.</td></tr>';
         resetCounters();
+        if (banner) banner.innerText = `${discipline} RECORD: 0 - 0 - 0`;
+        
         return;
     }
 
@@ -104,6 +108,10 @@ function updateProfileUI(fights) {
         `;
         tbody.appendChild(row);
     });
+
+    if (banner) {
+        banner.innerText = `${discipline} RECORD: ${stats.WIN.total} - ${stats.LOSS.total} - ${stats.DRAW.total}`;
+    }
 
     const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
     

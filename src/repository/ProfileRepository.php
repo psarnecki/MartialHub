@@ -7,11 +7,17 @@ class ProfileRepository extends Repository {
 
     public function getUserProfile(int $userId): ?UserProfile {
         $query = $this->database->connect()->prepare('
-            SELECT ud.*, u.role, c.name as club_name 
+            SELECT 
+                ud.*, u.role, c.name as club_name,
+                COALESCE(SUM(ar.wins), 0) as total_wins,
+                COALESCE(SUM(ar.losses), 0) as total_losses,
+                COALESCE(SUM(ar.draws), 0) as total_draws
             FROM user_details ud
             JOIN users u ON ud.user_id = u.id
             LEFT JOIN clubs c ON ud.club_id = c.id
+            LEFT JOIN v_athlete_records ar ON u.id = ar.user_id
             WHERE ud.user_id = :id
+            GROUP BY ud.id, u.role, c.name
         ');
         $query->bindParam(':id', $userId, PDO::PARAM_INT);
         $query->execute();
@@ -25,9 +31,9 @@ class ProfileRepository extends Repository {
             $data['lastname'], 
             $data['role'], 
             $data['club_name'],
-            $data['wins'], 
-            $data['losses'], 
-            $data['draws'],
+            $data['total_wins'],
+            $data['total_losses'],
+            $data['total_draws'],
             $data['bio'], 
             $data['image_url']
         );

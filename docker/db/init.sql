@@ -28,9 +28,6 @@ CREATE TABLE user_details (
     lastname VARCHAR(100) NOT NULL,
     nickname VARCHAR(100),
     club_id INTEGER REFERENCES clubs(id) ON DELETE SET NULL,
-    wins INTEGER DEFAULT 0,
-    losses INTEGER DEFAULT 0,
-    draws INTEGER DEFAULT 0,
     bio TEXT,
     image_url VARCHAR(255) DEFAULT 'public/img/default-avatar.png'
 );
@@ -102,10 +99,10 @@ INSERT INTO user_details (user_id, firstname, lastname, bio) VALUES
     (1, 'Admin', 'MartialHub', 'System administrator.'),
     (2, 'Maciej', 'Kawulski', 'Responsible for managing events and fights.');
 
-INSERT INTO user_details (user_id, firstname, lastname, club_id, wins, losses, draws, bio) VALUES 
-    (3, 'Jan', 'Kowalski', 4, 12, 4, 1, 'K1 professional fighter.'),
-    (4, 'Adam', 'Nowak', 2, 5, 2, 0, 'BJJ Blue Belt'),
-    (5, 'Piotr', 'Lewandowski', 1, 8, 3, 2, 'Boxing enthusiast');
+INSERT INTO user_details (user_id, firstname, lastname, club_id, bio) VALUES 
+    (3, 'Jan', 'Kowalski', 4, 'K1 professional fighter.'),
+    (4, 'Adam', 'Nowak', 2, 'BJJ Blue Belt'),
+    (5, 'Piotr', 'Lewandowski', 1, 'Boxing enthusiast');
 
 -- Initial events data
 INSERT INTO events (title, discipline, description, date, location, image_url, capacity, is_featured) VALUES 
@@ -194,6 +191,18 @@ SELECT
 FROM fights f
 JOIN events e ON f.event_id = e.id
 JOIN user_details ud ON f.opponent_id = ud.user_id;
+
+-- VIEW 2: Automatic record counting by discipline
+CREATE VIEW v_athlete_records AS
+SELECT 
+    f.user_id,
+    e.discipline,
+    COUNT(f.id) FILTER (WHERE f.result = 'WIN') AS wins,
+    COUNT(f.id) FILTER (WHERE f.result = 'LOSS') AS losses,
+    COUNT(f.id) FILTER (WHERE f.result = 'DRAW') AS draws
+FROM fights f
+JOIN events e ON f.event_id = e.id
+GROUP BY f.user_id, e.discipline;
 
 -- TRIGGER 1: creates mirrored fight records for both fighters
 CREATE OR REPLACE FUNCTION add_mirror_fight()
