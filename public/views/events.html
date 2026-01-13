@@ -85,7 +85,7 @@
                 <div class="events-grid-dense" id="event-grid">
                     <?php if(isset($events)): ?>
                         <?php foreach ($events as $event): ?>
-                            <a href="/eventDetails/<?= $event->getId(); ?>" class="event-card-small">
+                            <a href="/events/<?= $event->getId(); ?>" class="event-card-small">
                                 <div class="img-wrap-small">
                                     <img src="<?= $event->getImageUrl(); ?>" alt="">
                                 </div>

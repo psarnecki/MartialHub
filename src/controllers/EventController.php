@@ -62,4 +62,14 @@ class EventController extends AppController {
             'locations' => $locations
         ]);
     }
+
+    public function eventDetails(int $id) {
+        $event = $this->eventRepository->getEventById($id);
+
+        if (!$event) {
+            return $this->render('404');
+        }
+
+        return $this->render('event-details', ['event' => $event]);
+    }
 }

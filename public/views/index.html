@@ -47,7 +47,7 @@
             <h1><?= $featuredEvent->getTitle(); ?></h1>
             <p><?= $featuredEvent->getFormattedDate(); ?>, <?= $featuredEvent->getLocation(); ?></p>
             <div class="hero-btns">
-                <a href="/eventDetails/<?= $featuredEvent->getId(); ?>" class="btn-hero-red">SEE DETAILS</a>
+                <a href="/events/<?= $featuredEvent->getId(); ?>" class="btn-hero-red">SEE DETAILS</a>
                 <a href="/events" class="btn-hero-white">ALL EVENTS</a>
             </div>
         </header>
@@ -61,7 +61,7 @@
         <section class="event-grid" id="event-grid">
             <?php if(isset($events)): ?>
                 <?php foreach ($events as $event): ?>
-                    <a href="/eventDetails/<?= $event->getId(); ?>" class="event-card">
+                    <a href="/events/<?= $event->getId(); ?>" class="event-card">
                         <div class="img-placeholder">
                             <img src="<?= $event->getImageUrl(); ?>" alt="">
                         </div>

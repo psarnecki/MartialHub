@@ -111,6 +111,28 @@ class EventRepository extends Repository {
         return $result;
     }
 
+    public function getEventById(int $id): ?Event {
+        $query = $this->database->connect()->prepare('
+            SELECT * FROM events WHERE id = :id
+        ');
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
+        $event = $query->fetch(PDO::FETCH_ASSOC);
+
+        if (!$event) return null;
+
+        return new Event(
+            $event['title'], 
+            $event['discipline'], 
+            $event['description'], 
+            $event['date'], 
+            $event['location'], 
+            $event['image_url'], 
+            $event['id'], 
+            $event['is_featured']
+        );
+    }
+
     public function getUniqueDisciplines(): array {
         $query = $this->database->connect()->prepare('
             SELECT DISTINCT UPPER(discipline) AS discipline 
