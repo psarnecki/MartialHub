@@ -3,9 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Details</title>
+    <link rel="stylesheet" href="/public/styles/main.css">
+    <link rel="stylesheet" href="/public/styles/event-details.css">
+    <title><?= $event->getTitle(); ?> – MartialHub</title>
 </head>
 <body>
-    <h1>Event Details</h1>
+     <nav>
+        <a href="/index" class="logo">MartialHub</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="/events">EVENTS</a>
+                <a href="/rankings">RANKINGS</a>
+                <a href="/profile">ATHLETES</a>
+            </div>
+            <div class="nav-buttons">
+                <?php if(isset($_SESSION['user_id'])): ?>
+                    <a href="/profile" class="btn-signup">MY PROFILE</a>
+                    <a href="/logout" class="btn-login">LOG OUT</a>
+                <?php else: ?>
+                    <a href="/register" class="btn-signup">CREATE ACCOUNT</a>
+                    <a href="/login" class="btn-login">LOG IN</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </nav>
+
+<main class="details-page-wrapper">
+        <div class="details-grid">
+            
+            <div class="main-column">
+                <div class="hero-container-padding">
+                    <header class="hero-wrapper">
+                        <img src="<?= $event->getImageUrl(); ?>" alt="Banner" onerror="this.style.display='none'">
+                        <div class="hero-text-overlay">
+                            <h1><?= $event->getTitle(); ?></h1>
+                        </div>
+                    </header>
+                </div>
+
+                <div class="details-tabs">
+                    <a href="#" class="d-tab active">INFORMATION</a>
+                    <a href="#" class="d-tab">START LISTS</a>
+                    <a href="#" class="d-tab">BRACKETS</a>
+                    <a href="#" class="d-tab">RESULTS</a>
+                </div>
+
+                <div class="details-main">
+                    <h2>ABOUT THE TOURNAMENT</h2>
+                    <p class="details-description"><?= $event->getDescription(); ?></p>
+
+                    <h2>REQUIREMENTS</h2>
+                    <div class="req-item"><div class="req-check"></div> Registration via MartialHub</div>
+                    <div class="req-item"><div class="req-check"></div> Entry fee payment</div>
+                    <div class="req-item"><div class="req-check"></div> Medical certificate</div>
+                    <div class="req-item"><div class="req-check"></div> Regulations acceptance</div>
+
+                    <h2>DOWNLOADS</h2>
+                    
+                    <div class="download-item">
+                        <div class="file-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#171212" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        </div>
+                        <p>Tournament_Regulations.pdf</p>
+                    </div>
+
+                    <div class="download-item">
+                        <div class="file-icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#171212" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        </div>
+                        <p>Health_Declaration.pdf</p>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar-column">
+                <div class="sidebar-card">
+                    <h3>EVENT INFO</h3>
+                    <div class="info-line">📅 Date: <b><?= date('l, j F Y', strtotime($event->getDate())); ?></b></div>
+                    <div class="info-line">📍 Location: <b><?= $event->getLocation(); ?></b></div>
+                    <div class="info-line">🥋 Discipline: <b><?= $event->getDiscipline(); ?></b></div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>REGISTRATION</h3>
+                    <p class="sidebar-fee">Fee: 150 PLN</p>
+                    <button class="btn-signup">REGISTER & PAY</button>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>LOCATION</h3>
+                    <div class="map-box"></div>
+                    <a href="#" class="btn-sidebar-grey">SHOW ON MAP</a>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>CONTACT</h3>
+                    <p class="contact-item">Email: events@martialhub.com</p>
+                    <p class="contact-item">Phone: +48 000 000 000</p>
+                    <a href="#" class="btn-sidebar-grey">SEND MESSAGE</a>
+                </div>
+            </aside>
+        </div>
+    </main>
 </body>
 </html>
