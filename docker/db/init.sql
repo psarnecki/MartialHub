@@ -40,6 +40,9 @@ CREATE TABLE events (
     description TEXT,
     date TIMESTAMP NOT NULL,
     location VARCHAR(255) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    registration_fee INTEGER DEFAULT 0,
+    registration_deadline TIMESTAMP,
     image_url TEXT,
     capacity INTEGER DEFAULT 100,
     is_featured BOOLEAN DEFAULT FALSE
@@ -105,13 +108,16 @@ INSERT INTO user_details (user_id, firstname, lastname, club_id, bio) VALUES
     (5, 'Piotr', 'Lewandowski', 1, 'Boxing enthusiast');
 
 -- Initial events data
-INSERT INTO events (title, discipline, description, date, location, image_url, capacity, is_featured) VALUES 
+INSERT INTO events (title, discipline, description, date, location, country, registration_fee, registration_deadline, image_url, capacity, is_featured) VALUES 
     (
         'Polish MMA Championship 2026',
         'MMA',
         'National-level MMA championship featuring top amateur fighters.',
         '2026-10-18 10:00:00', -- UPCOMING
         'Warsaw',
+        'Poland',
+        250,
+        '2026-09-30 23:59:59',
         'public/img/mma_championship.jpg',
         500,
         TRUE
@@ -122,6 +128,9 @@ INSERT INTO events (title, discipline, description, date, location, image_url, c
         'Regional judo tournament for junior and senior competitors.',
         '2025-10-15 09:00:00', -- FINISHED
         'Cracow',
+        'Poland',
+        120,
+        '2025-10-01 23:59:59',
         'public/img/judo_cup.jpg',
         300,
         FALSE
@@ -132,6 +141,9 @@ INSERT INTO events (title, discipline, description, date, location, image_url, c
         'Brazilian Jiu-Jitsu open tournament with gi and no-gi divisions.',
         '2025-11-09 08:30:00', -- FINISHED
         'Warsaw',
+        'Poland',
+        180,
+        '2025-10-25 23:59:59',
         'public/img/bjj_open.jpg',
         400,
         FALSE
@@ -142,6 +154,9 @@ INSERT INTO events (title, discipline, description, date, location, image_url, c
         'Professional and amateur kickboxing bouts under K-1 rules.',
         '2026-03-21 18:00:00', -- UPCOMING
         'Gliwice',
+        'Poland',
+        200,
+        '2026-02-28 23:59:59',
         'public/img/kickboxing.jpg',
         250,
         FALSE
@@ -152,6 +167,9 @@ INSERT INTO events (title, discipline, description, date, location, image_url, c
         'Entry-level MMA tournament designed for debuting fighters.',
         '2025-08-30 10:00:00', -- FINISHED
         'Obroniki Śląskie',
+        'Poland',
+        150,
+        '2025-08-15 23:59:59',
         'public/img/mma_beginners.jpg',
         200,
         FALSE
@@ -162,6 +180,9 @@ INSERT INTO events (title, discipline, description, date, location, image_url, c
         'Technical seminar led by international coaches.',
         '2026-07-12 11:00:00', -- UPCOMING
         'Cracow',
+        'Poland',
+        80,
+        '2026-06-30 23:59:59',
         'public/img/seminar.jpg',
         80,
         FALSE
@@ -172,8 +193,24 @@ INSERT INTO events (title, discipline, description, date, location, image_url, c
         'Amateur MMA League - tournament for debutants and beginner fighters.',
         '2026-05-23 15:00:00', -- UPCOMING
         'Sochaczew',
+        'Poland',
+        160,
+        '2026-04-30 23:59:59',
         'public/img/almma_254.jpg',
         300,
+        FALSE
+    ),
+    (
+        'European BJJ Championship',
+        'BJJ',
+        'Pan-European Brazilian Jiu-Jitsu championship.',
+        '2026-11-15 09:00:00',
+        'Lisbon',
+        'Portugal',
+        500,
+        '2026-10-15 23:59:59',
+        'public/img/european_bjj.jpg',
+        800,
         FALSE
     );
 

@@ -8,6 +8,9 @@ class Event {
     private $description;
     private $date;
     private $location;
+    private $country;
+    private $registrationFee;
+    private $registrationDeadline;
     private $imageUrl;
     private $isFeatured;
 
@@ -17,6 +20,9 @@ class Event {
         string $description,
         string $date,
         string $location,
+        string $country,
+        int $registrationFee,
+        string $registrationDeadline,
         string $imageUrl,
         int $id = null,
         bool $isFeatured = false
@@ -26,6 +32,9 @@ class Event {
         $this->description = $description;
         $this->date = $date;
         $this->location = $location;
+        $this->country = $country;
+        $this->registrationFee = $registrationFee;
+        $this->registrationDeadline = $registrationDeadline;
         $this->imageUrl = $imageUrl;
         $this->id = $id;
         $this->isFeatured = $isFeatured;
@@ -61,6 +70,19 @@ class Event {
         return $this->location; 
     }
 
+    public function getCountry(): string {
+        return $this->country;
+    }
+
+    public function getRegistrationFee(): int {
+        return $this->registrationFee;
+    }
+
+    public function getRegistrationDeadline(): string {
+        $date = new DateTime($this->registrationDeadline);
+        return $date->format('l, j F Y');
+    }
+
     public function getImageUrl(): string { 
         return $this->imageUrl; 
     }
@@ -71,5 +93,16 @@ class Event {
 
     public function isFeatured(): bool {
         return $this->isFeatured;
+    }
+
+    public function getDaysToRegistrationEnd(): string {
+        $deadline = new DateTime($this->registrationDeadline);
+        $now = new DateTime();
+
+        if ($now > $deadline) return "Closed";
+        
+        $diff = $now->diff($deadline);
+
+        return $diff->days === 0 ? "Ends today" : "Ends in " . $diff->days . " days";
     }
 }

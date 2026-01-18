@@ -21,6 +21,9 @@ class EventRepository extends Repository {
                 $event['description'],
                 $event['date'],
                 $event['location'],
+                $event['country'],
+                $event['registration_fee'],
+                $event['registration_deadline'],
                 $event['image_url'],
                 $event['id'],
                 $event['is_featured']
@@ -40,13 +43,16 @@ class EventRepository extends Repository {
         if (!$event) return null;
 
         return new Event(
-            $event['title'], 
+            $event['title'],
             $event['discipline'],
-            $event['description'], 
+            $event['description'],
             $event['date'],
-            $event['location'], 
-            $event['image_url'], 
-            $event['id'], 
+            $event['location'],
+            $event['country'],
+            $event['registration_fee'],
+            $event['registration_deadline'],
+            $event['image_url'],
+            $event['id'],
             $event['is_featured']
         );
     }
@@ -68,13 +74,16 @@ class EventRepository extends Repository {
 
         foreach ($events as $event) {
             $result[] = new Event(
-                $event['title'], 
+                $event['title'],
                 $event['discipline'],
-                $event['description'], 
+                $event['description'],
                 $event['date'],
-                $event['location'], 
+                $event['location'],
+                $event['country'],
+                $event['registration_fee'],
+                $event['registration_deadline'],
                 $event['image_url'],
-                $event['id'], 
+                $event['id'],
                 $event['is_featured']
             );
         }
@@ -97,13 +106,16 @@ class EventRepository extends Repository {
 
         foreach ($events as $event) {
             $result[] = new Event(
-                $event['title'], 
+                $event['title'],
                 $event['discipline'],
-                $event['description'], 
+                $event['description'],
                 $event['date'],
-                $event['location'], 
-                $event['image_url'], 
-                $event['id'], 
+                $event['location'],
+                $event['country'],
+                $event['registration_fee'],
+                $event['registration_deadline'],
+                $event['image_url'],
+                $event['id'],
                 $event['is_featured']
             );
         }
@@ -122,13 +134,16 @@ class EventRepository extends Repository {
         if (!$event) return null;
 
         return new Event(
-            $event['title'], 
-            $event['discipline'], 
-            $event['description'], 
-            $event['date'], 
-            $event['location'], 
-            $event['image_url'], 
-            $event['id'], 
+            $event['title'],
+            $event['discipline'],
+            $event['description'],
+            $event['date'],
+            $event['location'],
+            $event['country'],
+            $event['registration_fee'],
+            $event['registration_deadline'],
+            $event['image_url'],
+            $event['id'],
             $event['is_featured']
         );
     }
@@ -204,13 +219,16 @@ class EventRepository extends Repository {
 
         foreach ($eventsData as $event) {
             $result[] = new Event(
-                $event['title'], 
-                $event['discipline'], 
-                $event['description'], 
-                $event['date'], 
-                $event['location'], 
-                $event['image_url'], 
-                $event['id'], 
+                $event['title'],
+                $event['discipline'],
+                $event['description'],
+                $event['date'],
+                $event['location'],
+                $event['country'],
+                $event['registration_fee'],
+                $event['registration_deadline'],
+                $event['image_url'],
+                $event['id'],
                 $event['is_featured']
             );
         }
