@@ -82,7 +82,7 @@ async function applyFilters() {
 
         events.forEach(eventData => {
             const card = document.createElement('a');
-            card.href = `/eventDetails/${eventData.id}`;
+            card.href = `/events/${eventData.id}`;
             
             if (isDense) {
                 card.className = 'event-card-small';
