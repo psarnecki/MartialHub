@@ -72,4 +72,12 @@ class EventController extends AppController {
 
         return $this->render('event-details', ['event' => $event]);
     }
+
+    public function eventResults(int $id) {
+        header('Content-Type: application/json');
+        $results = $this->eventRepository->getEventResults($id);
+        
+        echo json_encode($results);
+        exit;
+    }
 }

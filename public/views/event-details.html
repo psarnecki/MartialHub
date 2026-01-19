@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/styles/main.css">
     <link rel="stylesheet" href="/public/styles/event-details.css">
+    <script src="/public/scripts/event-details.js" defer></script>
+    
     <title><?= $event->getTitle(); ?> – MartialHub</title>
 </head>
 <body>
@@ -90,7 +92,7 @@
             <aside class="sidebar-column">
                 <div class="sidebar-card">
                     <h3>EVENT INFO</h3>
-                    <div class="info-line">📅 Date: <b><?= date('l, j F Y', strtotime($event->getDate())); ?></b></div>
+                    <div class="info-line">📅 Date: <b id="event-date-val"><?= date('l, j F Y', strtotime($event->getDate())); ?></b></div>
                     <div class="info-line">📍 Location: <b><?= $event->getLocation(); ?>, <?= $event->getCountry(); ?></b></div>
                     <div class="info-line">🥋 Discipline: <b><?= $event->getDiscipline(); ?></b></div>
                 </div>

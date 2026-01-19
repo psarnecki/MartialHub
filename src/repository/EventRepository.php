@@ -235,4 +235,26 @@ class EventRepository extends Repository {
         
         return $result;
     }
+
+    public function getEventResults(int $eventId): array {
+        $query = $this->database->connect()->prepare('
+            SELECT 
+                f.result, f.method, f.fight_date,
+                ud1.firstname as fighter_firstname, ud1.lastname as fighter_lastname,
+                ud2.firstname as opponent_firstname, ud2.lastname as opponent_lastname
+            FROM fights f
+            JOIN user_details ud1 ON f.user_id = ud1.user_id
+            JOIN user_details ud2 ON f.opponent_id = ud2.user_id
+            WHERE f.event_id = :id 
+            AND (
+                f.result = \'WIN\' 
+                OR (f.result = \'DRAW\' AND f.user_id < f.opponent_id)
+            )
+            ORDER BY f.id ASC
+        ');
+        $query->bindParam(':id', $eventId, PDO::PARAM_INT);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

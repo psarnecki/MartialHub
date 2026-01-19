@@ -50,6 +50,10 @@ class Routing {
             "controller" => "EventController",
             "action" => "eventDetails"
         ],
+        "eventResults" => [
+            "controller" => "EventController",
+            "action" => "eventResults"
+        ],
         "profile" => [
             "controller" => "ProfileController",
             "action" => "profile"
@@ -92,6 +96,14 @@ class Routing {
             return;
         }
 
+        if (preg_match('/^eventResults\/(\d+)$/', $path, $matches)) {
+            $controller = Routing::$routes["eventResults"]["controller"];
+            $action = Routing::$routes["eventResults"]["action"];
+            $controllerObj = new $controller;
+            $controllerObj->$action((int)$matches[1]);
+            return;
+        }
+
         switch($path) {
             case 'login':
             case 'logout':
@@ -100,6 +112,7 @@ class Routing {
             case 'events':
             case 'filterEvents':
             case 'eventDetails':
+            case 'eventResults':
             case 'profile':
             case 'filterProfile':
             case 'rankings':

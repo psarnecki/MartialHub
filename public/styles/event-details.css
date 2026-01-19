@@ -168,6 +168,7 @@
     display: flex;
     gap: 0.5rem;
     color: var(--text-dark);
+    align-items: baseline;
 }
 
 .sidebar-fee {
@@ -241,4 +242,62 @@
 .btn-sidebar-red {
     background-color: var(--primary-red);
     color: var(--white);
+}
+
+.fighter-table-wrapper {
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.fighter-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.fighter-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    background-color: #fcfcfc;
+    border-bottom: 1px solid var(--border-gray);
+}
+
+.fighter-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-gray);
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.fighter-table tr:last-child td {
+    border-bottom: none;
+}
+
+.result-badge {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    min-width: 84px;
+    font-size: 13px;
+    border: 1.5px solid rgba(0,0,0,0.05);
+}
+
+.win-bg { 
+    background-color: rgba(116, 228, 110, 1); 
+    border-color: #5ec458; 
+    color: #171212;
+}
+
+.draw-bg { 
+    background-color: rgba(242, 232, 232, 1); 
+    border-color: #d1c4c4; 
+    color: #171212;
 }
