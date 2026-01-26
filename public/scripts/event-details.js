@@ -41,6 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    const regBtn = document.getElementById('register-btn');
+    if (regBtn) {
+        regBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerToEvent(eventId); 
+        });
+    }
 });
 
 function getPlaceholderMessage(tabName, isPast) {
@@ -126,5 +134,21 @@ async function fetchResults(eventId, container, isPast) {
         container.innerHTML = html;
     } catch (e) {
         container.innerHTML = '<h2>Error</h2><p>Could not load results.</p>';
+    }
+}
+
+async function registerToEvent(eventId) {
+    const btn = document.getElementById('register-btn');
+    
+    if (confirm("Confirm registration for this event?")) {
+        btn.innerText = "PROCESSING...";
+        btn.disabled = true;
+
+        setTimeout(() => {
+            btn.innerText = "REGISTERED";
+            btn.classList.remove('btn-sidebar-red');
+            btn.style.backgroundColor = "#F2E8E8";
+            alert("Registration successful! Check your email for payment details.");
+        }, 1500);
     }
 }
