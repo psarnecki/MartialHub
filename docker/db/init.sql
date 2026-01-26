@@ -26,6 +26,7 @@ CREATE TABLE user_details (
     user_id INTEGER UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
     nickname VARCHAR(100),
     club_id INTEGER REFERENCES clubs(id) ON DELETE SET NULL,
     bio TEXT,
@@ -38,6 +39,7 @@ CREATE TABLE events (
     title VARCHAR(255) NOT NULL,
     discipline VARCHAR(50) DEFAULT 'N/A',
     description TEXT,
+    organizer_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
     date TIMESTAMP NOT NULL,
     location VARCHAR(255) NOT NULL,
     country VARCHAR(100) NOT NULL,
@@ -46,6 +48,14 @@ CREATE TABLE events (
     image_url TEXT,
     capacity INTEGER DEFAULT 100,
     is_featured BOOLEAN DEFAULT FALSE
+);
+
+-- Event registrations table (users N:N events)
+CREATE TABLE event_registrations (
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    event_id INTEGER REFERENCES events(id) ON DELETE CASCADE,
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, event_id)
 );
 
 -- Fights table (users N:N events)
@@ -95,12 +105,15 @@ INSERT INTO users (email, password, role) VALUES
     ('maciej.kawulski@martialhub.com', '$2y$10$VkD3RTJlEaVVVExuM/Lwl.pz2zsEFJvhlFxyiEZn8A0U3dmJp4tva', 'organizer'),
     ('jan.kowalski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
     ('adam.nowak@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
-    ('piotr.lewandowski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user');
+    ('piotr.lewandowski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
+    ('mmapolska@martialhub.com', '$2y$10$VkD3RTJlEaVVVExuM/Lwl.pz2zsEFJvhlFxyiEZn8A0U3dmJp4tva', 'organizer');
+
 
 -- Initial user details
-INSERT INTO user_details (user_id, firstname, lastname, bio) VALUES
-    (1, 'Admin', 'MartialHub', 'System administrator.'),
-    (2, 'Maciej', 'Kawulski', 'Responsible for managing events and fights.');
+INSERT INTO user_details (user_id, firstname, lastname, phone, bio) VALUES
+    (1, 'Admin', 'MartialHub', '+48 000 000 000', 'System administrator.'),
+    (2, 'Maciej', 'Kawulski', '+48 500 600 700', 'Responsible for managing events and fights.'),
+    (6, 'Martin', 'Lewandowski', '+48 888 777 666', 'MMA enthusiast and KSW, mmapolska owner.');
 
 INSERT INTO user_details (user_id, firstname, lastname, club_id, bio) VALUES 
     (3, 'Jan', 'Kowalski', 4, 'K1 professional fighter.'),
@@ -108,11 +121,12 @@ INSERT INTO user_details (user_id, firstname, lastname, club_id, bio) VALUES
     (5, 'Piotr', 'Lewandowski', 1, 'Boxing enthusiast');
 
 -- Initial events data
-INSERT INTO events (title, discipline, description, date, location, country, registration_fee, registration_deadline, image_url, capacity, is_featured) VALUES 
+INSERT INTO events (title, discipline, description, organizer_id, date, location, country, registration_fee, registration_deadline, image_url, capacity, is_featured) VALUES 
     (
         'Polish MMA Championship 2026',
         'MMA',
         'National-level MMA championship featuring top amateur fighters.',
+        6,
         '2026-10-18 10:00:00', -- UPCOMING
         'Warsaw',
         'Poland',
@@ -126,6 +140,7 @@ INSERT INTO events (title, discipline, description, date, location, country, reg
         'Regional Judo Cup',
         'Judo',
         'Regional judo tournament for junior and senior competitors.',
+        2,
         '2025-10-15 09:00:00', -- FINISHED
         'Cracow',
         'Poland',
@@ -139,6 +154,7 @@ INSERT INTO events (title, discipline, description, date, location, country, reg
         'Copa Silesia 8',
         'BJJ',
         'Brazilian Jiu-Jitsu open tournament with gi and no-gi divisions.',
+        6,
         '2025-11-09 08:30:00', -- FINISHED
         'Warsaw',
         'Poland',
@@ -152,6 +168,7 @@ INSERT INTO events (title, discipline, description, date, location, country, reg
         'High Kick 10',
         'Kickboxing',
         'Professional and amateur kickboxing bouts under K-1 rules.',
+        2,
         '2026-03-21 18:00:00', -- UPCOMING
         'Gliwice',
         'Poland',
@@ -165,6 +182,7 @@ INSERT INTO events (title, discipline, description, date, location, country, reg
         'ALMMA 219',
         'MMA',
         'Entry-level MMA tournament designed for debuting fighters.',
+        6,
         '2025-08-30 10:00:00', -- FINISHED
         'Obroniki Śląskie',
         'Poland',
@@ -178,6 +196,7 @@ INSERT INTO events (title, discipline, description, date, location, country, reg
         'Wrestling & Grappling Seminar',
         'Wrestling/Grappling',
         'Technical seminar led by international coaches.',
+        2,
         '2026-07-12 11:00:00', -- UPCOMING
         'Cracow',
         'Poland',
@@ -191,6 +210,7 @@ INSERT INTO events (title, discipline, description, date, location, country, reg
         'ALMMA 254',
         'MMA',
         'Amateur MMA League - tournament for debutants and beginner fighters.',
+        6,
         '2026-05-23 15:00:00', -- UPCOMING
         'Sochaczew',
         'Poland',
@@ -204,6 +224,7 @@ INSERT INTO events (title, discipline, description, date, location, country, reg
         'European BJJ Championship',
         'BJJ',
         'Pan-European Brazilian Jiu-Jitsu championship.',
+        6,
         '2026-11-15 09:00:00',
         'Lisbon',
         'Portugal',
