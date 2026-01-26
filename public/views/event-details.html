@@ -105,20 +105,38 @@
                     <p class="deadline-date"><?= $event->getRegistrationDeadline(); ?></p>
                     <p class="urgency-text"><?= $event->getDaysToRegistrationEnd(); ?></p>
 
-                    <button class="btn-sidebar btn-sidebar-red">REGISTER & PAY</button>
+                    <button class="btn-sidebar btn-sidebar-red" id="register-btn">REGISTER & PAY</button>
                 </div>
 
                 <div class="sidebar-card">
                     <h3>LOCATION</h3>
-                    <div class="map-box"></div>
-                    <a href="#" class="btn-sidebar btn-sidebar-grey">SHOW ON MAP</a>
+                    <div class="map-box">
+                        <?php
+                            $fullAddress = $event->getLocation() . ', ' . $event->getCountry();
+                            $encodedAddress = urlencode($fullAddress);
+                            $mapUrl = "https://maps.google.com/maps?q=$encodedAddress&t=&z=10&ie=UTF8&iwloc=&output=embed";
+                        ?>
+                        <iframe 
+                            src="<?= $mapUrl ?>"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=<?= $encodedAddress ?>"
+                        target="_blank"
+                        class="btn-sidebar btn-sidebar-grey"
+                        style="margin-top: 0;">
+                        SHOW ON MAP
+                    </a>
                 </div>
 
                 <div class="sidebar-card">
                     <h3>CONTACT</h3>
-                    <p class="contact-item">Email: events@martialhub.com</p>
-                    <p class="contact-item">Phone: +48 000 000 000</p>
-                    <a href="#" class="btn-sidebar btn-sidebar-grey">SEND MESSAGE</a>
+                    <p class="contact-item"><?= $event->getOrganizerEmail(); ?></p>
+                    <p class="contact-item"><?= $event->getOrganizerPhone(); ?></p>
+                    <a href="mailto:<?= $event->getOrganizerEmail(); ?>?subject=Inquiry%20about%20<?= rawurlencode($event->getTitle()); ?>" 
+                        class="btn-sidebar btn-sidebar-grey">
+                        SEND MESSAGE
+                    </a>
                 </div>
             </aside>
         </div>
