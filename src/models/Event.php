@@ -6,6 +6,8 @@ class Event {
     private $title;
     private $discipline;
     private $description;
+    private $organizerEmail;
+    private $organizerPhone;
     private $date;
     private $location;
     private $country;
@@ -18,6 +20,8 @@ class Event {
         string $title,
         string $discipline,
         string $description,
+        ?string $organizerEmail, 
+        ?string $organizerPhone,
         string $date,
         string $location,
         string $country,
@@ -30,6 +34,8 @@ class Event {
         $this->title = $title;
         $this->discipline = $discipline;
         $this->description = $description;
+        $this->organizerEmail = $organizerEmail ?? 'events@martialhub.com';
+        $this->organizerPhone = $organizerPhone ?? 'Not provided';
         $this->date = $date;
         $this->location = $location;
         $this->country = $country;
@@ -50,6 +56,14 @@ class Event {
 
     public function getDescription(): string { 
         return $this->description; 
+    }
+
+    public function getOrganizerEmail(): string {
+        return $this->organizerEmail;
+    }
+
+    public function getOrganizerPhone(): string {
+        return $this->organizerPhone;
     }
 
     public function getDate(): string { 
