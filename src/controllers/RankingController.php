@@ -11,7 +11,16 @@ class RankingController extends AppController {
     }
 
     public function rankings() {
-        $ranking = $this->rankingRepository->getRanking('MMA');
-        return $this->render('rankings', ['ranking' => $ranking]);
+        return $this->render('rankings', [
+            'ranking' => $this->rankingRepository->getRanking('MMA', 'individual'),
+            'disciplines' => $this->rankingRepository->getDisciplines()
+        ]);
+    }
+
+    public function filterRanking() {
+        $content = json_decode(file_get_contents("php://input"), true);
+        header('Content-Type: application/json');
+        echo json_encode($this->rankingRepository->getRanking($content['discipline'], $content['type']));
+        exit;
     }
 }

@@ -280,6 +280,19 @@ JOIN v_athlete_records ar ON ud.user_id = ar.user_id
 LEFT JOIN clubs c ON ud.club_id = c.id
 ORDER BY points DESC;
 
+-- VIEW 4: Club ranking based on athlete points
+CREATE OR REPLACE VIEW v_club_rankings AS
+SELECT 
+    club_name,
+    COUNT(DISTINCT user_id) as athlete_count,
+    SUM(wins) as total_wins,
+    SUM(points) as total_points,
+    discipline
+FROM v_rankings
+WHERE club_name IS NOT NULL
+GROUP BY club_name, discipline
+ORDER BY total_points DESC;
+
 -- TRIGGER 1: creates mirrored fight records for both fighters
 CREATE OR REPLACE FUNCTION add_mirror_fight()
 RETURNS TRIGGER AS $$
