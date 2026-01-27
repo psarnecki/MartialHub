@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="public/styles/main.css">
     <link rel="stylesheet" href="public/styles/index.css">
+    <script src="public/scripts/main.js" defer></script>
     <script src="public/scripts/events.js" defer></script>
 
     <title>Combat Sports Events & Rankings – MartialHub</title>
@@ -43,6 +44,32 @@
                 <?php else: ?>
                     <a href="/register" class="btn-signup">CREATE ACCOUNT</a>
                     <a href="/login" class="btn-login">LOG IN</a>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+             <div class="mobile-content-wrapper">
+                <a href="/events" class="mobile-link">EVENTS</a>
+                <a href="/rankings" class="mobile-link">RANKINGS</a>
+                <a href="/profile" class="mobile-link">ATHLETES</a>
+
+                <hr class="mobile-divider">
+
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <div class="user-actions-group">
+                        <a href="/notifications" class="mobile-btn notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                        NOTIFICATIONS
+                        </a>
+                        <a href="/profile" class="mobile-btn profile">MY PROFILE</a>
+                    </div>
+                    <a href="/logout" class="mobile-btn logout mt-auto">LOG OUT</a>
+                <?php else: ?>
+                    <div class="user-actions-group">
+                        <a href="/login" class="mobile-btn login">LOG IN</a>
+                        <a href="/register" class="mobile-btn register">CREATE ACCOUNT</a>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
