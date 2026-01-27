@@ -26,6 +26,7 @@ body {
     color: var(--text-dark);
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
+    padding-top: 4.0625rem;
 }
 
 nav {
@@ -36,6 +37,10 @@ nav {
     padding: 0 10%;
     height: 4.0625rem;
     width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 .logo {
