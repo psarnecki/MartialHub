@@ -143,3 +143,76 @@
     font-weight: 400; 
     border-top: 1px solid rgba(0,0,0,0.1);
 }
+
+@media (max-width: 768px) {
+    .hero-banner {
+        height: 10rem;
+        margin: 0 0 1rem 0;
+    }
+
+    .hero-banner h1 {
+        font-size: 2rem;
+    }
+
+    .rankings-tabs {
+        padding: 0;
+    }
+
+    .filters {
+        flex-direction: column;
+        gap: 0.625rem;
+        padding: 0;
+    }
+
+    .filter-select-wrapper, 
+    .filter-btn,
+    .filter-select {
+        width: 100%;
+        height: 3.125rem;
+    }
+
+    .filter-btn, 
+    .filter-select {
+        font-size: 0.875rem;
+    }
+
+    .filter-btn {
+        justify-content: space-between;
+        padding: 0 0.75rem 0 1rem;
+    }
+
+    .filter-btn svg {
+        flex-shrink: 0;
+    }
+
+    .table-responsive {
+        margin: 0;
+        overflow: hidden;
+        border-radius: 0.625rem;
+    }
+
+    .ranking-table {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .ranking-table th:nth-child(3), 
+    .ranking-table td:nth-child(3),
+    .ranking-table th:nth-child(5), 
+    .ranking-table td:nth-child(5) {
+        display: none;
+    }
+
+    .ranking-table th, 
+    .ranking-table td {
+        padding: 1rem 0.75rem;
+    }
+
+    .ranking-table td {
+        border-top: 1px solid var(--border-gray);
+    }
+    
+    .ranking-table tr:first-child td {
+        border-top: none;
+    }
+}
