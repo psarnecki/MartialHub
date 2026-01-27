@@ -5,6 +5,24 @@ require_once __DIR__.'/../models/Event.php';
 
 class EventRepository extends Repository {
 
+    private function mapToEvent(array $event): Event {
+        return new Event(
+            $event['title'],
+            $event['discipline'],
+            $event['description'],
+            $event['organizer_email'] ?? null,
+            $event['organizer_phone'] ?? null,
+            $event['date'],
+            $event['location'],
+            $event['country'],
+            $event['registration_fee'],
+            $event['registration_deadline'],
+            $event['image_url'],
+            $event['id'],
+            $event['is_featured']
+        );
+    }
+
     private function getBaseQuery(): string {
         return '
             SELECT e.*, u.email as organizer_email, ud.phone as organizer_phone
@@ -21,21 +39,7 @@ class EventRepository extends Repository {
         $events = $query->fetchAll(PDO::FETCH_ASSOC);
     
         foreach ($events as $event) {
-            $result[] = new Event(
-                $event['title'],
-                $event['discipline'],
-                $event['description'],
-                $event['organizer_email'] ?? null,
-                $event['organizer_phone'] ?? null,
-                $event['date'],
-                $event['location'],
-                $event['country'],
-                $event['registration_fee'],
-                $event['registration_deadline'],
-                $event['image_url'],
-                $event['id'],
-                $event['is_featured']
-            );
+            $result[] = $this->mapToEvent($event);
         }
 
         return $result;
@@ -46,23 +50,7 @@ class EventRepository extends Repository {
         $query->execute();
         $event = $query->fetch(PDO::FETCH_ASSOC);
 
-        if (!$event) return null;
-
-        return new Event(
-            $event['title'],
-            $event['discipline'],
-            $event['description'],
-            $event['organizer_email'] ?? null,
-            $event['organizer_phone'] ?? null,
-            $event['date'],
-            $event['location'],
-            $event['country'],
-            $event['registration_fee'],
-            $event['registration_deadline'],
-            $event['image_url'],
-            $event['id'],
-            $event['is_featured']
-        );
+        return $event ? $this->mapToEvent($event) : null;
     }
 
     public function getEventsByStatus(string $status): array {
@@ -79,21 +67,7 @@ class EventRepository extends Repository {
         $events = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($events as $event) {
-            $result[] = new Event(
-                $event['title'],
-                $event['discipline'],
-                $event['description'],
-                $event['organizer_email'] ?? null,
-                $event['organizer_phone'] ?? null,
-                $event['date'],
-                $event['location'],
-                $event['country'],
-                $event['registration_fee'],
-                $event['registration_deadline'],
-                $event['image_url'],
-                $event['id'],
-                $event['is_featured']
-            );
+            $result[] = $this->mapToEvent($event);
         }
 
         return $result;
@@ -104,28 +78,14 @@ class EventRepository extends Repository {
         $searchString = '%' . strtolower($searchString) . '%';
 
         $query = $this->database->connect()->prepare(
-        $this->getBaseQuery() . ' WHERE LOWER(e.title) LIKE :search OR LOWER(e.location) LIKE :search ORDER BY e.date ASC'
+            $this->getBaseQuery() . ' WHERE LOWER(e.title) LIKE :search OR LOWER(e.location) LIKE :search ORDER BY e.date ASC'
         );
         $query->bindParam(':search', $searchString, PDO::PARAM_STR);
         $query->execute();
         $events = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($events as $event) {
-            $result[] = new Event(
-                $event['title'],
-                $event['discipline'],
-                $event['description'],
-                $event['organizer_email'] ?? null,
-                $event['organizer_phone'] ?? null,
-                $event['date'],
-                $event['location'],
-                $event['country'],
-                $event['registration_fee'],
-                $event['registration_deadline'],
-                $event['image_url'],
-                $event['id'],
-                $event['is_featured']
-            );
+            $result[] = $this->mapToEvent($event);
         }
 
         return $result;
@@ -139,21 +99,7 @@ class EventRepository extends Repository {
 
         if (!$event) return null;
 
-        return new Event(
-            $event['title'],
-            $event['discipline'],
-            $event['description'],
-            $event['organizer_email'] ?? null,
-            $event['organizer_phone'] ?? null,
-            $event['date'],
-            $event['location'],
-            $event['country'],
-            $event['registration_fee'],
-            $event['registration_deadline'],
-            $event['image_url'],
-            $event['id'],
-            $event['is_featured']
-        );
+        return $this->mapToEvent($event);
     }
 
     public function getUniqueDisciplines(): array {
@@ -164,6 +110,7 @@ class EventRepository extends Repository {
             ORDER BY discipline ASC
         ');
         $query->execute();
+
         return $query->fetchAll(PDO::FETCH_COLUMN);
     }
 
@@ -175,6 +122,7 @@ class EventRepository extends Repository {
             ORDER BY location ASC
         ');
         $query->execute();
+
         return $query->fetchAll(PDO::FETCH_COLUMN);
     }
 
@@ -224,21 +172,7 @@ class EventRepository extends Repository {
         $eventsData = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($eventsData as $event) {
-            $result[] = new Event(
-                $event['title'],
-                $event['discipline'],
-                $event['description'],
-                $event['organizer_email'] ?? null,
-                $event['organizer_phone'] ?? null,
-                $event['date'],
-                $event['location'],
-                $event['country'],
-                $event['registration_fee'],
-                $event['registration_deadline'],
-                $event['image_url'],
-                $event['id'],
-                $event['is_featured']
-            );
+            $result[] = $this->mapToEvent($event);
         }
         
         return $result;
