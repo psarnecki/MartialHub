@@ -64,7 +64,7 @@
     flex-direction: row;
     gap: 2rem;
     padding: 0 1rem;
-    border-bottom: 0.0625rem solid var(--border-pink);
+    border-bottom: 1px solid var(--border-pink);
     margin-bottom: 0.75rem;
 }
 
@@ -74,7 +74,7 @@
     font-weight: 700;
     color: var(--nav-black);
     text-decoration: none;
-    border-bottom: 0.1875rem solid var(--nav-black);
+    border-bottom: 3px solid var(--nav-black);
     transition: 0.2s;
     flex-shrink: 0;
     text-transform: uppercase;
@@ -82,11 +82,11 @@
 
 .d-tab.active {
     color: var(--primary-red);
-    border-bottom: 0.1875rem solid var(--primary-red);
+    border-bottom: 3px solid var(--primary-red);
 }
 
 .d-tab:hover:not(.active) {
-    border-bottom: 0.1875rem solid rgba(0, 0, 0, 0.7);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.7);
 }
 
 .details-main {
@@ -117,19 +117,19 @@
 .req-item {
     gap: 0.75rem;
     padding: 0.75rem 0;
-    border-bottom: 0.0625rem solid var(--border-gray);
+    border-bottom: 1px solid var(--border-gray);
 }
 
 .req-check {
-    width: 1.25rem;
-    height: 1.25rem;
-    border: 0.0625rem solid var(--border-pink);
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--border-pink);
     border-radius: 0.25rem;
 }
 
 .file-icon-box {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 40px;
+    height: 40px;
     background-color: rgba(245, 240, 240, 1);
     border-radius: 0.5rem;
     display: flex;
@@ -145,7 +145,7 @@
 
 .sidebar-card {
     background: var(--white);
-    border: 0.0625rem solid var(--border-gray);
+    border: 1px solid var(--border-gray);
     border-radius: 0.5rem;
     padding: 1.5rem;
     margin-bottom: 1.25rem;
@@ -203,7 +203,7 @@
     height: 9.375rem;
     background-color: #eee;
     border-radius: 0.5rem;
-    border: 0.0625rem solid var(--border-gray);
+    border: 1px solid var(--border-gray);
     margin-bottom: 0.5rem;
     overflow: hidden;
 }
@@ -259,9 +259,9 @@
 
 .fighter-table-wrapper {
     border: 1px solid var(--border-gray);
-    border-radius: 8px;
+    border-radius: 0.5rem;
     overflow: hidden;
-    margin-top: 20px;
+    margin-top: 1.25rem;
     background-color: white;
 }
 
@@ -272,8 +272,8 @@
 
 .fighter-table th {
     text-align: left;
-    padding: 12px 16px;
-    font-size: 13px;
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
     font-weight: 700;
     color: var(--text-dark);
     background-color: #fcfcfc;
@@ -281,9 +281,9 @@
 }
 
 .fighter-table td {
-    padding: 14px 16px;
+    padding: 0.875rem 1rem;
     border-bottom: 1px solid var(--border-gray);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--text-dark);
 }
 
@@ -295,12 +295,12 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 4px 16px;
-    border-radius: 8px;
+    padding: 0.25rem 1rem;
+    border-radius: 0.5rem;
     font-weight: 700;
-    min-width: 84px;
-    font-size: 13px;
-    border: 1.5px solid rgba(0,0,0,0.05);
+    min-width: 5.25rem;
+    font-size: 0.8125rem;
+    border: 0.09375rem solid rgba(0,0,0,0.05);
 }
 
 .win-bg { 

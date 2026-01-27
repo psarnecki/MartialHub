@@ -64,7 +64,7 @@
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='13' height='25' viewBox='0 0 13 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.7277 17.5886L6.49989 24L0.272097 18.9491' stroke='%23964F4F' stroke-width='2'/%3e%3cpath d='M1.5859 7.41137L6.49989 1L11.4139 7.41137' stroke='%23964F4F' stroke-width='2'/%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 0.9375rem center;
-    background-size: 0.625rem;
+    background-size: 10px;
 }
 
 .btn-submit-filter {
