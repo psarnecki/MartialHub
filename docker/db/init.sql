@@ -106,8 +106,8 @@ INSERT INTO users (email, password, role) VALUES
     ('jan.kowalski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
     ('adam.nowak@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
     ('piotr.lewandowski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
-    ('mmapolska@martialhub.com', '$2y$10$VkD3RTJlEaVVVExuM/Lwl.pz2zsEFJvhlFxyiEZn8A0U3dmJp4tva', 'organizer');
-
+    ('mmapolska@martialhub.com', '$2y$10$VkD3RTJlEaVVVExuM/Lwl.pz2zsEFJvhlFxyiEZn8A0U3dmJp4tva', 'organizer'),
+    ('andrzej.wisniewski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user');
 
 -- Initial user details
 INSERT INTO user_details (user_id, firstname, lastname, phone, bio) VALUES
@@ -118,7 +118,8 @@ INSERT INTO user_details (user_id, firstname, lastname, phone, bio) VALUES
 INSERT INTO user_details (user_id, firstname, lastname, club_id, bio) VALUES 
     (3, 'Jan', 'Kowalski', 4, 'K1 professional fighter.'),
     (4, 'Adam', 'Nowak', 2, 'BJJ Blue Belt'),
-    (5, 'Piotr', 'Lewandowski', 1, 'Boxing enthusiast');
+    (5, 'Piotr', 'Lewandowski', 1, 'Boxing enthusiast'),
+    (7, 'Andrzej', 'Wiśniewski', 5, 'BJJ black belt');
 
 -- Initial events data
 INSERT INTO events (title, discipline, description, organizer_id, date, location, country, registration_fee, registration_deadline, image_url, capacity, is_featured) VALUES 
@@ -262,6 +263,23 @@ FROM fights f
 JOIN events e ON f.event_id = e.id
 GROUP BY f.user_id, e.discipline;
 
+-- VIEW 3: Global athlete ranking with points calculation
+CREATE VIEW v_rankings AS
+SELECT 
+    ud.user_id,
+    ud.firstname,
+    ud.lastname,
+    c.name as club_name,
+    ar.discipline,
+    ar.wins,
+    ar.losses,
+    ar.draws,
+    (ar.wins * 3 + ar.draws * 1) as points
+FROM user_details ud
+JOIN v_athlete_records ar ON ud.user_id = ar.user_id
+LEFT JOIN clubs c ON ud.club_id = c.id
+ORDER BY points DESC;
+
 -- TRIGGER 1: creates mirrored fight records for both fighters
 CREATE OR REPLACE FUNCTION add_mirror_fight()
 RETURNS TRIGGER AS $$
@@ -302,4 +320,5 @@ INSERT INTO fights (user_id, opponent_id, event_id, result, method, fight_date) 
     (3, 5, 4, 'WIN', 'KO/TKO', '2026-03-21'),
     (3, 4, 3, 'DRAW', 'Majority Draw', '2025-11-09'),
     (3, 4, 7, 'WIN', 'Submission', '2026-05-23'),
-    (3, 5, 7, 'WIN', 'Majority Decision', '2026-05-23');
+    (3, 5, 7, 'WIN', 'Majority Decision', '2026-05-23'),
+    (7, 5, 7, 'WIN', 'Unanimous Decision', '2026-05-23');
