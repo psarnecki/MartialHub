@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/styles/main.css">
     <link rel="stylesheet" href="/public/styles/rankings.css">
+    <script src="public/scripts/rankings.js" defer></script>
 
     <title>Rankings – MartialHub</title>
 </head>
@@ -46,37 +47,30 @@
         </div>
         
         <div class="rankings-tabs">
-            <a href="#" class="r-tab active">INDIVIDUAL RANKING</a>
-            <a href="#" class="r-tab">CLUB RANKING</a>
+            <a href="#" class="r-tab active" data-type="individual">INDIVIDUAL RANKING</a>
+            <a href="#" class="r-tab" data-type="club">CLUB RANKING</a>
         </div>
 
         <div class="filters">
-            <button class="filter-btn">
-                Discipline 
-                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="filter-btn">
-                Gender
-                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="filter-btn">
-                Age Class
-                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="filter-btn">
-                Weight Class
-                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="filter-btn">
-                Level
-                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+            <div class="filter-select-wrapper">
+                <select class="filter-select" id="rank-discipline" onchange="refreshRanking()">
+                    <option value="" disabled selected>DISCIPLINE</option>
+                    <?php foreach($disciplines as $d): ?>
+                        <option value="<?= $d ?>"><?= $d ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <svg class="select-icon" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <button class="filter-btn" onclick="alert('Not available yet')">GENDER <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="filter-btn" onclick="alert('Not available yet')">AGE CLASS <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="filter-btn" onclick="alert('Not available yet')">WEIGHT CLASS <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="filter-btn" onclick="alert('Not available yet')">LEVEL <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
 
         <div class="table-responsive">
-            <table class="ranking-table">
+            <table class="ranking-table" id="ranking-table">
                 <thead>
-                    <tr>
+                    <tr id="table-header">
                         <th>RANK</th>
                         <th>ATHLETE</th>
                         <th>CLUB</th>
@@ -98,7 +92,7 @@
                         <td><b><?= $row['firstname'] . ' ' . $row['lastname'] ?></b></td>
                         <td class="<?= $rowClass ? '' : 'rank-other' ?>"><?= $row['club_name'] ?? 'Independent' ?></td>
                         <td><?= $row['points'] ?></td>
-                        <td class="rank-other"><?= $row['wins'] ?>-<?= $row['losses'] ?>-<?= $row['draws'] ?></td>
+                        <td class="<?= $rowClass ? '' : 'rank-other' ?>"><b><?= $row['wins'] ?>-<?= $row['losses'] ?>-<?= $row['draws'] ?></b></td>
                     </tr>
                     <?php endforeach; endif; ?>
                 </tbody>
