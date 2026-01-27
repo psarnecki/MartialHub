@@ -105,7 +105,11 @@
                     <p class="deadline-date"><?= $event->getRegistrationDeadline(); ?></p>
                     <p class="urgency-text"><?= $event->getDaysToRegistrationEnd(); ?></p>
 
-                    <button class="btn-sidebar btn-sidebar-red" id="register-btn">REGISTER & PAY</button>
+                    <?php if($event->isRegistrationOpen()): ?>
+                        <button class="btn-sidebar btn-sidebar-red" id="register-btn">REGISTER & PAY</button>
+                    <?php else: ?>
+                        <button class="btn-sidebar btn-disabled" disabled>REGISTRATION CLOSED</button>
+                    <?php endif; ?>
                 </div>
 
                 <div class="sidebar-card">
@@ -123,8 +127,7 @@
                     </div>
                     <a href="https://www.google.com/maps/search/?api=1&query=<?= $encodedAddress ?>"
                         target="_blank"
-                        class="btn-sidebar btn-sidebar-grey"
-                        style="margin-top: 0;">
+                        class="btn-sidebar btn-sidebar-grey">
                         SHOW ON MAP
                     </a>
                 </div>

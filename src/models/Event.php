@@ -119,4 +119,14 @@ class Event {
 
         return $diff->days === 0 ? "Ends today" : "Ends in " . $diff->days . " days";
     }
+
+    public function isRegistrationOpen(): bool {
+        if (!$this->registrationDeadline) {
+            return false;
+        }
+        $deadline = new DateTime($this->registrationDeadline);
+        $now = new DateTime();
+        
+        return $now <= $deadline;
+    }
 }
