@@ -17,26 +17,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 tab.classList.add('active');
 
                 const tabName = tab.innerText.trim();
+                const wrapper = document.querySelector('.details-page-wrapper');
 
                 if (tabName === 'INFORMATION') {
+                    wrapper.classList.remove('hide-extra-info');
                     mainColumn.innerHTML = infoHTML;
                 } 
-                else if (tabName === 'RESULTS') {
-                    mainColumn.innerHTML = `
-                        <h2>Tournament Results</h2>
-                        <div style="padding: 3rem 0; text-align: center; color: var(--text-gray);">
-                            <p style="font-weight: 700; font-size: 1.2rem;">
-                                Loading results
-                            </p>
-                            <p>
-                                Please wait while we retrieve the tournament data.
-                            </p>
-                        </div>
-                    `;
-                    await fetchResults(eventId, mainColumn, isPast);
-                } 
                 else {
-                    mainColumn.innerHTML = `<h2>${tabName}</h2>` + getPlaceholderMessage(tabName, isPast);
+                    wrapper.classList.add('hide-extra-info');
+
+                    if (tabName === 'RESULTS') {
+                        mainColumn.innerHTML = `
+                            <h2>Tournament Results</h2>
+                            <div style="padding: 3rem 0; text-align: center; color: var(--text-gray);">
+                                <p style="font-weight: 700; font-size: 1.2rem;">
+                                    Loading results
+                                </p>
+                                <p>
+                                    Please wait while we retrieve the tournament data.
+                                </p>
+                            </div>
+                        `;
+                        await fetchResults(eventId, mainColumn, isPast);
+                    } 
+                    else {
+                        mainColumn.innerHTML = `<h2>${tabName}</h2>` + getPlaceholderMessage(tabName, isPast);
+                    }
                 }
             });
         });
