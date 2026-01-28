@@ -1,0 +1,244 @@
+.admin-container {
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 1.875rem 1rem;
+}
+
+.admin-container.edit-mode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 9.375rem);
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.admin-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    letter-spacing: -0.0625rem;
+}
+
+.admin-table-wrapper {
+    background: var(--white);
+    border: 1px solid var(--border-gray);
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    background-color: #fcfcfc;
+    border-bottom: 1px solid var(--border-gray);
+    letter-spacing: 0.05rem;
+}
+
+.admin-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-gray);
+    font-size: 0.875rem;
+    color: var(--text-dark);
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tr:hover td {
+    background-color: #fafafa;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.role-admin {
+    background-color: #fee2e2;
+    color: var(--primary-red);
+}
+
+.role-organizer {
+    background-color: #fefce8;
+    color: #b45309;
+}
+
+.role-user {
+    background-color: var(--tab-bg);
+    color: var(--text-gray);
+}
+
+.action-btn {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.75rem;
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.02rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.btn-edit {
+    background-color: var(--tab-bg);
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.btn-edit:hover {
+    background-color: #e5e7eb;
+    color: #111827;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.btn-delete {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+.btn-delete:hover {
+    background-color: #ef4444;
+    color: white;
+    border-color: #ef4444;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+.edit-user-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.edit-user-card {
+    background: var(--white);
+    width: 100%;
+    max-width: 28rem;
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-gray);
+}
+
+.edit-user-title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.edit-user-email {
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-input, .form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--tab-bg);
+    background-color: var(--body-bg);
+    border-radius: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus, .form-select:focus {
+    border-color: var(--primary-red);
+}
+
+.btn-save {
+    background-color: var(--primary-red);
+    color: var(--white);
+    padding: 0.875rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+    transition: filter 0.2s;
+}
+
+.btn-save:hover {
+    filter: brightness(90%);
+}
+
+.btn-cancel {
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--text-gray);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.btn-cancel:hover {
+    color: var(--text-dark);
+}
+
+@media (max-width: 768px) {
+    .admin-table th, .admin-table td {
+        padding: 0.75rem;
+    }
+
+    .edit-user-card {
+        padding: 1.5rem;
+    }
+
+    .admin-container.edit-mode {
+        min-height: calc(100vh - 5rem);
+    }
+}

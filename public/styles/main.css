@@ -69,6 +69,11 @@ nav {
     letter-spacing: 0.03125rem;
 }
 
+.admin-link {
+    color: var(--primary-red) !important;
+    font-weight: 800;
+}
+
 .nav-buttons {
     display: flex;
     gap: 0.625rem;

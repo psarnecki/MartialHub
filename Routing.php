@@ -73,6 +73,14 @@ class Routing {
         "adminUsers" => [
             "controller" => "AdminController",
             "action" => "users"
+        ],
+        "deleteUser" => [
+            "controller" => "AdminController",
+            "action" => "deleteUser"
+        ],
+        "editUser" => [
+            "controller" => "AdminController",
+            "action" => "editUser"
         ]
     ];
 
@@ -80,6 +88,24 @@ class Routing {
 
         if (empty($path)) {
             $path = 'index';
+        }
+
+        if (preg_match('/^deleteUser\/(\d+)$/', $path, $matches)) {
+            $controller = Routing::$routes["deleteUser"]["controller"];
+            $action = Routing::$routes["deleteUser"]["action"];
+            
+            $controllerObj = new $controller;
+            $controllerObj->$action((int)$matches[1]);
+            return;
+        }
+
+        if (preg_match('/^editUser\/(\d+)$/', $path, $matches)) {
+            $controller = Routing::$routes["editUser"]["controller"];
+            $action = Routing::$routes["editUser"]["action"];
+            
+            $controllerObj = new $controller;
+            $controllerObj->$action((int)$matches[1]);
+            return;
         }
 
         if (preg_match('/^profile\/(\d+)$/', $path, $matches)) {
@@ -122,6 +148,8 @@ class Routing {
             case 'rankings':
             case 'filterRanking':
             case 'adminUsers':
+            case 'deleteUser':
+            case 'editUser':
                 $controller = Routing::$routes[$path]['controller'];
                 $action = Routing::$routes[$path]['action'];
 

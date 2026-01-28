@@ -3,9 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
+    <link rel="stylesheet" href="public/styles/main.css">
+    <link rel="stylesheet" href="public/styles/admin.css">
+    <script src="public/scripts/main.js" defer></script>
+    <script src="public/scripts/admin.js" defer></script>
+
+    <title>Admin Panel – MartialHub</title>
 </head>
 <body>
-    <h1>Admin</h1>
+    <?php include __DIR__ . '/partials/navbar.php'; ?>
+
+    <main class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">Manage Users</h1>
+        </div>
+
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($users as $user): ?>
+                    <tr>
+                        <td><?= $user->getId() ?></td>
+                        <td><?= $user->getFirstName() . ' ' . $user->getLastName() ?></td>
+                        <td><b><?= $user->getEmail() ?></b></td>
+                        <td>
+                            <span class="role-badge role-<?= $user->getRole() ?>">
+                                <?= ucfirst($user->getRole()) ?>
+                            </span>
+                        </td>
+                        <td>
+                            <a href="/editUser/<?= $user->getId() ?>" class="action-btn btn-edit">Edit</a>
+                            <?php if($user->getId() !== (int)$_SESSION['user_id']): ?>
+                                <a href="/deleteUser/<?= $user->getId() ?>" class="action-btn btn-delete">Delete</a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
 </body>
 </html>

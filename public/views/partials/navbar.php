@@ -9,6 +9,9 @@
 
     <div class="nav-right">
         <div class="nav-links">
+            <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                <a href="/adminUsers" class="admin-link">ADMIN PANEL</a>
+            <?php endif; ?>
             <a href="/events">EVENTS</a>
             <a href="/rankings">RANKINGS</a>
             <a href="/profile">ATHLETES</a>
@@ -40,6 +43,9 @@
             <a href="/events" class="mobile-link">EVENTS</a>
             <a href="/rankings" class="mobile-link">RANKINGS</a>
             <a href="/profile" class="mobile-link">ATHLETES</a>
+            <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                <a href="/adminUsers" class="mobile-link admin-link">ADMIN PANEL</a>
+            <?php endif; ?>
 
             <hr class="mobile-divider">
 
