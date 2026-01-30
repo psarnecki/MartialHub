@@ -13,7 +13,6 @@ class Routing {
     private function __construct() {}
 
     public static function getInstance(): Routing {
-
         if (self::$instance === null) {
             self::$instance = new Routing();
         }
@@ -84,82 +83,39 @@ class Routing {
         ]
     ];
 
-    public function run($path) {
+    public static $parameterizedRoutes = [
+        '/^deleteUser\/(\d+)$/'   => 'deleteUser',
+        '/^editUser\/(\d+)$/'     => 'editUser',
+        '/^profile\/(\d+)$/'      => 'profile',
+        '/^events\/(\d+)$/'       => 'eventDetails',
+        '/^eventResults\/(\d+)$/' => 'eventResults'
+    ];
 
+    public function run($path) {
         if (empty($path)) {
             $path = 'index';
         }
 
-        if (preg_match('/^deleteUser\/(\d+)$/', $path, $matches)) {
-            $controller = Routing::$routes["deleteUser"]["controller"];
-            $action = Routing::$routes["deleteUser"]["action"];
-            
-            $controllerObj = new $controller;
-            $controllerObj->$action((int)$matches[1]);
-            return;
-        }
-
-        if (preg_match('/^editUser\/(\d+)$/', $path, $matches)) {
-            $controller = Routing::$routes["editUser"]["controller"];
-            $action = Routing::$routes["editUser"]["action"];
-            
-            $controllerObj = new $controller;
-            $controllerObj->$action((int)$matches[1]);
-            return;
-        }
-
-        if (preg_match('/^profile\/(\d+)$/', $path, $matches)) {
-            $controller = Routing::$routes["profile"]["controller"];
-            $action = Routing::$routes["profile"]["action"];
-            
-            $controllerObj = new $controller;
-            $controllerObj->$action((int)$matches[1]);
-            return;
-        }
-
-        if (preg_match('/^events\/(\d+)$/', $path, $matches)) {
-            $controller = Routing::$routes["eventDetails"]["controller"];
-            $action = Routing::$routes["eventDetails"]["action"];
-
-            $controllerObj = new $controller;
-            $controllerObj->$action((int)$matches[1]);
-            return;
-        }
-
-        if (preg_match('/^eventResults\/(\d+)$/', $path, $matches)) {
-            $controller = Routing::$routes["eventResults"]["controller"];
-            $action = Routing::$routes["eventResults"]["action"];
-            $controllerObj = new $controller;
-            $controllerObj->$action((int)$matches[1]);
-            return;
-        }
-
-        switch($path) {
-            case 'login':
-            case 'logout':
-            case 'register':
-            case 'index':
-            case 'events':
-            case 'filterEvents':
-            case 'eventDetails':
-            case 'eventResults':
-            case 'profile':
-            case 'filterProfile':
-            case 'rankings':
-            case 'filterRanking':
-            case 'adminUsers':
-            case 'deleteUser':
-            case 'editUser':
-                $controller = Routing::$routes[$path]['controller'];
-                $action = Routing::$routes[$path]['action'];
+        foreach (Routing::$parameterizedRoutes as $pattern => $routeKey) {
+            if (preg_match($pattern, $path, $matches)) {
+                $controller = Routing::$routes[$routeKey]["controller"];
+                $action = Routing::$routes[$routeKey]["action"];
 
                 $controllerObj = new $controller;
-                $controllerObj->$action(null);
-                break;
-            default:
-                $errorController = new AppController();
-                $errorController->terminateWithError(404);
-                break;
+                $controllerObj->$action((int)$matches[1]);
+                return;
+            }
+        }
+
+        if (isset(Routing::$routes[$path])) {
+            $controller = Routing::$routes[$path]['controller'];
+            $action = Routing::$routes[$path]['action'];
+
+            $controllerObj = new $controller;
+            $controllerObj->$action(null);
+        } else {
+            $errorController = new AppController();
+            $errorController->terminateWithError(404);
         }
     }
 }
