@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>400 Bad Request</title>
+    <link rel="stylesheet" href="/public/styles/main.css">
+    <link rel="stylesheet" href="/public/styles/error.css">
+
+    <title>400 – Bad Request</title>
 </head>
-<body>
-    <h1>400 Bad Request</h1>
+<body class="error-page">
+    <div class="error-container">
+        <h1>400</h1>
+        <h2>Bad Request</h2>
+        <p>The server could not understand your request due to invalid syntax or missing data.</p>
+        <a href="/" class="btn-back">Go to Homepage</a>
+    </div>
 </body>
 </html>
