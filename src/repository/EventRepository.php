@@ -183,4 +183,83 @@ class EventRepository extends Repository {
 
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function isUserRegistered(int $eventId, int $userId): bool {
+        $query = $this->database->execute('
+            SELECT 1 FROM event_registrations 
+            WHERE event_id = :event_id AND user_id = :user_id
+        ', [
+            'event_id' => $eventId, 
+            'user_id' => $userId
+        ]);
+
+        return $query->fetch() !== false;
+    }
+
+    public function getRegistrationCount(int $eventId): int {
+        $query = $this->database->execute('
+            SELECT COUNT(*) FROM event_registrations WHERE event_id = :event_id
+        ', ['event_id' => $eventId]);
+
+        return (int)$query->fetchColumn();
+    }
+
+    public function getEventCapacity(int $eventId): ?int {
+        $query = $this->database->execute('
+            SELECT capacity FROM events WHERE id = :id
+        ', ['id' => $eventId]);
+
+        $result = $query->fetchColumn();
+
+        if ($result !== false) return (int)$result;
+
+        return null;
+    }
+
+    public function registerUser(int $eventId, int $userId): array {
+        $db = $this->database->connect();
+        
+        try {
+            $db->beginTransaction();
+
+            // Check if event exists and fetch data
+            $query = $db->prepare('SELECT capacity, registration_deadline FROM events WHERE id = :id FOR UPDATE');
+            $query->execute(['id' => $eventId]);
+            $event = $query->fetch(PDO::FETCH_ASSOC);
+
+            if (!$event) {
+                $db->rollBack();
+                return ['success' => false, 'message' => 'Event not found'];
+            }
+
+            if (new DateTime($event['registration_deadline']) < new DateTime()) {
+                $db->rollBack();
+                return ['success' => false, 'message' => 'Registration deadline has passed'];
+            }
+
+            $query = $db->prepare('SELECT 1 FROM event_registrations WHERE event_id = :event_id AND user_id = :user_id');
+            $query->execute(['event_id' => $eventId, 'user_id' => $userId]);
+            if ($query->fetch()) {
+                $db->rollBack();
+                return ['success' => false, 'message' => 'Already registered'];
+            }
+
+            $query = $db->prepare('SELECT COUNT(*) FROM event_registrations WHERE event_id = :event_id');
+            $query->execute(['event_id' => $eventId]);
+            $currentCount = (int)$query->fetchColumn();
+            if ($currentCount >= $event['capacity']) {
+                $db->rollBack();
+                return ['success' => false, 'message' => 'Event is full'];
+            }
+
+            $query = $db->prepare('INSERT INTO event_registrations (user_id, event_id) VALUES (:user_id, :event_id)');
+            $query->execute(['user_id' => $userId, 'event_id' => $eventId]);
+
+            $db->commit();
+            return ['success' => true, 'message' => 'Registration successful'];
+        } catch (Exception $e) {
+            $db->rollBack();
+            return ['success' => false, 'message' => 'Registration failed'];
+        }
+    }
 }

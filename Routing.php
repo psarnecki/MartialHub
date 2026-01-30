@@ -53,6 +53,10 @@ class Routing {
             "controller" => "EventController",
             "action" => "eventResults"
         ],
+        "registerEvent" => [
+            "controller" => "EventController",
+            "action" => "registerEvent"
+        ],
         "profile" => [
             "controller" => "ProfileController",
             "action" => "profile"
@@ -88,7 +92,8 @@ class Routing {
         '/^editUser\/(\d+)$/'     => 'editUser',
         '/^profile\/(\d+)$/'      => 'profile',
         '/^events\/(\d+)$/'       => 'eventDetails',
-        '/^eventResults\/(\d+)$/' => 'eventResults'
+        '/^eventResults\/(\d+)$/' => 'eventResults',
+        '/^registerEvent\/(\d+)$/' => 'registerEvent'
     ];
 
     public function run($path) {

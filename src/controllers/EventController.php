@@ -64,7 +64,40 @@ class EventController extends AppController {
             $this->terminateWithError(404);
         }
 
-        return $this->render('event-details', ['event' => $event]);
+        $isLoggedIn = isset($_SESSION['user_id']);
+        $isRegistered = false;
+        $spotsLeft = null;
+
+        if ($isLoggedIn) {
+            $isRegistered = $this->eventRepository->isUserRegistered($id, $_SESSION['user_id']);
+        }
+
+        $capacity = $this->eventRepository->getEventCapacity($id);
+        $registrationCount = $this->eventRepository->getRegistrationCount($id);
+        $spotsLeft = $capacity - $registrationCount;
+
+        return $this->render('event-details', [
+            'event' => $event,
+            'isLoggedIn' => $isLoggedIn,
+            'isRegistered' => $isRegistered,
+            'spotsLeft' => $spotsLeft
+        ]);
+    }
+
+    public function registerEvent(int $id) {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Not logged in', 'redirect' => '/login']);
+            exit;
+        }
+
+        $result = $this->eventRepository->registerUser($id, $_SESSION['user_id']);
+
+        http_response_code($result['success'] ? 200 : 400);
+        echo json_encode($result);
+        exit;
     }
 
     public function eventResults(int $id) {
