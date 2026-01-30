@@ -6,8 +6,7 @@ class AdminController extends AppController {
 
     public function __construct() {
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-            header("Location: /login");
-            exit();
+            $this->terminateWithError(403);
         }
     }
 
@@ -22,11 +21,16 @@ class AdminController extends AppController {
         $userRepository = new UserRepository();
 
         if ($this->isPost()) {
+            if (empty(trim($_POST['firstname'])) || empty(trim($_POST['lastname'])) || empty(trim($_POST['role']))) {
+                $this->terminateWithError(400); 
+            }
+
             $userRepository->updateUser($id, [
                 'firstname' => $_POST['firstname'],
                 'lastname' => $_POST['lastname'],
                 'role' => $_POST['role']
             ]);
+            
             header("Location: /adminUsers");
             exit;
         }
@@ -34,8 +38,7 @@ class AdminController extends AppController {
         $user = $userRepository->getUserById($id);
         
         if (!$user) {
-            header("Location: /adminUsers");
-            exit;
+            $this->terminateWithError(404);
         }
 
         return $this->render('edit-user', ['user' => $user]);

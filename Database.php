@@ -1,6 +1,7 @@
 <?php
 
 require_once "config.php";
+require_once __DIR__.'/src/controllers/AppController.php';
 
 class Database {
     private static ?Database $instance = null;
@@ -39,10 +40,22 @@ class Database {
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             catch(PDOException $e) {
-                die("Connection failed: " . $e->getMessage());
+                $errorController = new AppController();
+                $errorController->terminateWithError(500);
             }
         }
         return $this->conn;
+    }
+
+    public function execute(string $query, array $params = []): \PDOStatement {
+        try {
+            $statement = $this->connect()->prepare($query);
+            $statement->execute($params);
+            return $statement;
+        } catch (PDOException $e) {
+            $errorController = new AppController();
+            $errorController->terminateWithError(500);
+        }
     }
 
     public function disconnect() {

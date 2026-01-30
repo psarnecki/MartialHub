@@ -157,7 +157,8 @@ class Routing {
                 $controllerObj->$action(null);
                 break;
             default:
-                include 'public/views/404.html';
+                $errorController = new AppController();
+                $errorController->terminateWithError(404);
                 break;
         }
     }

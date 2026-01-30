@@ -22,33 +22,27 @@ class EventController extends AppController {
     }
 
     public function filter() {
-        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        $filters = $this->getJsonData();
 
-        if (strpos($contentType, "application/json") !== false) {
-            $content = trim(file_get_contents("php://input"));
-            $decoded = json_decode($content, true);
-
-            header('Content-Type: application/json');
-            http_response_code(200);
-
-            $events = $this->eventRepository->getEventsWithFilters($decoded);
-            
-            $response = [];
-            foreach ($events as $event) {
-                $response[] = [
-                    'id' => $event->getId(),
-                    'title' => $event->getTitle(),
-                    'discipline' => $event->getDiscipline(),
-                    'day' => $event->getFormattedDay(),
-                    'date' => $event->getFormattedDate(),
-                    'location' => $event->getLocation(),
-                    'imageUrl' => $event->getImageUrl()
-                ];
-            }
-
-            echo json_encode($response);
-            return;
+        header('Content-Type: application/json');
+        
+        $events = $this->eventRepository->getEventsWithFilters($filters);
+        
+        $response = [];
+        foreach ($events as $event) {
+            $response[] = [
+                'id' => $event->getId(),
+                'title' => $event->getTitle(),
+                'discipline' => $event->getDiscipline(),
+                'day' => $event->getFormattedDay(),
+                'date' => $event->getFormattedDate(),
+                'location' => $event->getLocation(),
+                'imageUrl' => $event->getImageUrl()
+            ];
         }
+
+        echo json_encode($response);
+        exit;
     }
 
     public function events() {
@@ -67,7 +61,7 @@ class EventController extends AppController {
         $event = $this->eventRepository->getEventById($id);
 
         if (!$event) {
-            return $this->render('404');
+            $this->terminateWithError(404);
         }
 
         return $this->render('event-details', ['event' => $event]);

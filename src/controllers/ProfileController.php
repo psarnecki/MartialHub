@@ -12,7 +12,6 @@ class ProfileController extends AppController {
     }
 
     public function profile(?int $id = null) {
-        
         if (!isset($_SESSION['user_id'])) {
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/login");
@@ -20,13 +19,17 @@ class ProfileController extends AppController {
             exit;
         }
 
+        if ($id !== null && $id !== (int)$_SESSION['user_id'] && $_SESSION['user_role'] !== 'admin') {
+            $this->terminateWithError(403);
+        }
+
         $userId = $id ?: $_SESSION['user_id'];
-        
+
         $profile = $this->profileRepository->getUserProfile($userId);
         $history = $this->profileRepository->getUserHistory($userId);
 
         if (!$profile) {
-            return $this->render('404');
+            $this->terminateWithError(404);
         }
 
         return $this->render('profile', [
@@ -36,22 +39,16 @@ class ProfileController extends AppController {
     }
 
     public function filterProfile() {
-        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        $data = $this->getJsonData(['discipline', 'userId']);
 
-        if (strpos($contentType, "application/json") !== false) {
-            $content = trim(file_get_contents("php://input"));
-            $decoded = json_decode($content, true);
-            
-            $discipline = strtoupper($decoded['discipline']);
-            $userId = $decoded['userId'];
+        header('Content-Type: application/json');
 
-            header('Content-Type: application/json');
-            
-            $history = $this->profileRepository->getUserHistoryByDiscipline($userId, $discipline);
-            
-            echo json_encode($history);
-
-            exit;
-        }
+        $history = $this->profileRepository->getUserHistoryByDiscipline(
+            $data['userId'],
+            strtoupper($data['discipline'])
+        );
+        
+        echo json_encode($history);
+        exit;
     }
 }
