@@ -146,15 +146,46 @@ async function fetchResults(eventId, container, isPast) {
 async function registerToEvent(eventId) {
     const btn = document.getElementById('register-btn');
     
-    if (confirm("Confirm registration for this event?")) {
-        btn.innerText = "PROCESSING...";
-        btn.disabled = true;
+    if (!confirm("Confirm registration for this event?")) {
+        return;
+    }
 
-        setTimeout(() => {
+    btn.innerText = "PROCESSING...";
+    btn.disabled = true;
+
+    try {
+        const response = await fetch(`/registerEvent/${eventId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const result = await response.json();
+
+        if (result.redirect) {
+            window.location.href = result.redirect;
+            return;
+        }
+
+        if (result.success) {
             btn.innerText = "REGISTERED";
             btn.classList.remove('btn-sidebar-red');
-            btn.style.backgroundColor = "#F2E8E8";
+            btn.classList.add('btn-registered');
+
+            const spotsElem = document.getElementById('spots-left');
+            if (spotsElem) {
+                const currentSpots = parseInt(spotsElem.innerText);
+                if (currentSpots >= 1) spotsElem.innerText = currentSpots - 1;
+            }
+            
             alert("Registration successful! Check your email for payment details.");
-        }, 1500);
+        } else {
+            btn.innerText = "REGISTER & PAY";
+            btn.disabled = false;
+            alert(result.message || "Registration failed. Please try again.");
+        }
+    } catch (error) {
+        btn.innerText = "REGISTER & PAY";
+        btn.disabled = false;
+        alert("An error occurred. Please try again.");
     }
 }

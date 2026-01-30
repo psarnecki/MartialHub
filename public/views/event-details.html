@@ -76,9 +76,20 @@
                     <p class="deadline-label">Registration deadline:</p>
                     <p class="deadline-date"><?= $event->getRegistrationDeadline(); ?></p>
                     <p class="urgency-text"><?= $event->getDaysToRegistrationEnd(); ?></p>
+                    <p class="spots-left" style="font-size: 0.85rem; color: var(--text-gray); margin-bottom: 1rem;">
+                        <span id="spots-left"><?= $spotsLeft; ?></span> spots remaining
+                    </p>
 
                     <?php if($event->isRegistrationOpen()): ?>
-                        <button class="btn-sidebar btn-sidebar-red" id="register-btn">REGISTER & PAY</button>
+                        <?php if($isRegistered): ?>
+                            <button class="btn-sidebar btn-registered" disabled>REGISTERED</button>
+                        <?php elseif(!$isLoggedIn): ?>
+                            <a href="/login" class="btn-sidebar btn-sidebar-red">REGISTER & PAY</a>
+                        <?php elseif($spotsLeft <= 0): ?>
+                            <button class="btn-sidebar btn-disabled" disabled>EVENT FULL</button>
+                        <?php else: ?>
+                            <button class="btn-sidebar btn-sidebar-red" id="register-btn">REGISTER & PAY</button>
+                        <?php endif; ?>
                     <?php else: ?>
                         <button class="btn-sidebar btn-disabled" disabled>REGISTRATION CLOSED</button>
                     <?php endif; ?>

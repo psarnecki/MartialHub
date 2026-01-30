@@ -253,6 +253,13 @@
     opacity: 0.6;
 }
 
+.btn-registered {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+    cursor: default;
+    font-weight: 700;
+}
+
 .btn-sidebar:disabled:hover {
     opacity: 0.6;
 }
