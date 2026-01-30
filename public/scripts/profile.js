@@ -1,24 +1,22 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const tabsContainer = document.querySelector('.profile-tabs');
-    const profileContainer = document.querySelector('.profile-main-content');
+const tabsContainer = document.querySelector('.profile-tabs');
+const profileContainer = document.querySelector('.profile-main-content');
 
-    if (tabsContainer && profileContainer) {
-        const userId = profileContainer.getAttribute('data-user-id');
-        const tabs = tabsContainer.querySelectorAll('.p-tab');
+if (tabsContainer && profileContainer) {
+    const userId = profileContainer.getAttribute('data-user-id');
+    const tabs = tabsContainer.querySelectorAll('.p-tab');
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', async (e) => {
-                e.preventDefault();
-                const discipline = tab.getAttribute('data-discipline');
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                await fetchDisciplineData(discipline, userId);
-            });
+    tabs.forEach(tab => {
+        tab.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const discipline = tab.getAttribute('data-discipline');
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            await fetchDisciplineData(discipline, userId);
         });
+    });
 
-        fetchDisciplineData('MMA', userId);
-    }
-});
+    fetchDisciplineData('MMA', userId);
+}
 
 async function fetchDisciplineData(discipline, userId) {
     const header = document.getElementById('stats-header');

@@ -1,18 +1,16 @@
 let currentStatus = 'UPCOMING';
 let searchTimeout;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('filter-search');
-    
-    if (searchInput) {
-        searchInput.addEventListener('input', () => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                applyFilters();
-            }, 300);
-        });
-    }
-});
+const searchInput = document.getElementById('filter-search');
+
+if (searchInput) {
+    searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            applyFilters();
+        }, 300);
+    });
+}
 
 async function filterEvents(status, event) {
     if (event) event.preventDefault();

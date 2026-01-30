@@ -1,61 +1,59 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const tabsContainer = document.querySelector('.details-tabs');
-    const mainColumn = document.querySelector('.details-main');
-    const infoHTML = mainColumn.innerHTML;
-    const eventId = window.location.pathname.split('/').pop();
+const tabsContainer = document.querySelector('.details-tabs');
+const mainColumn = document.querySelector('.details-main');
+const infoHTML = mainColumn.innerHTML;
+const eventId = window.location.pathname.split('/').pop();
 
-    const eventDateRaw = document.getElementById('event-date-val').innerText;
-    const isPast = new Date(eventDateRaw) < new Date();
+const eventDateRaw = document.getElementById('event-date-val').innerText;
+const isPast = new Date(eventDateRaw) < new Date();
 
-    if (tabsContainer) {
-        const tabs = tabsContainer.querySelectorAll('.d-tab');
+if (tabsContainer) {
+    const tabs = tabsContainer.querySelectorAll('.d-tab');
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', async (e) => {
-                e.preventDefault();
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', async (e) => {
+            e.preventDefault();
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
 
-                const tabName = tab.innerText.trim();
-                const wrapper = document.querySelector('.details-page-wrapper');
+            const tabName = tab.innerText.trim();
+            const wrapper = document.querySelector('.details-page-wrapper');
 
-                if (tabName === 'INFORMATION') {
-                    wrapper.classList.remove('hide-extra-info');
-                    mainColumn.innerHTML = infoHTML;
+            if (tabName === 'INFORMATION') {
+                wrapper.classList.remove('hide-extra-info');
+                mainColumn.innerHTML = infoHTML;
+            } 
+            else {
+                wrapper.classList.add('hide-extra-info');
+
+                if (tabName === 'RESULTS') {
+                    mainColumn.innerHTML = `
+                        <h2>Tournament Results</h2>
+                        <div style="padding: 3rem 0; text-align: center; color: var(--text-gray);">
+                            <p style="font-weight: 700; font-size: 1.2rem;">
+                                Loading results
+                            </p>
+                            <p>
+                                Please wait while we retrieve the tournament data.
+                            </p>
+                        </div>
+                    `;
+                    await fetchResults(eventId, mainColumn, isPast);
                 } 
                 else {
-                    wrapper.classList.add('hide-extra-info');
-
-                    if (tabName === 'RESULTS') {
-                        mainColumn.innerHTML = `
-                            <h2>Tournament Results</h2>
-                            <div style="padding: 3rem 0; text-align: center; color: var(--text-gray);">
-                                <p style="font-weight: 700; font-size: 1.2rem;">
-                                    Loading results
-                                </p>
-                                <p>
-                                    Please wait while we retrieve the tournament data.
-                                </p>
-                            </div>
-                        `;
-                        await fetchResults(eventId, mainColumn, isPast);
-                    } 
-                    else {
-                        mainColumn.innerHTML = `<h2>${tabName}</h2>` + getPlaceholderMessage(tabName, isPast);
-                    }
+                    mainColumn.innerHTML = `<h2>${tabName}</h2>` + getPlaceholderMessage(tabName, isPast);
                 }
-            });
+            }
         });
-    }
+    });
+}
 
-    const regBtn = document.getElementById('register-btn');
-    if (regBtn) {
-        regBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            registerToEvent(eventId); 
-        });
-    }
-});
+const regBtn = document.getElementById('register-btn');
+if (regBtn) {
+    regBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        registerToEvent(eventId); 
+    });
+}
 
 function getPlaceholderMessage(tabName, isPast) {
     let message = "";

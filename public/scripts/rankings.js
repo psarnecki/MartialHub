@@ -1,19 +1,17 @@
 let currentType = 'individual';
 
-document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.r-tab');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', (e) => {
-            e.preventDefault();
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentType = tab.dataset.type;
-            refreshRanking();
-        });
+const tabs = document.querySelectorAll('.r-tab');
+tabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentType = tab.dataset.type;
+        refreshRanking();
     });
-
-    refreshRanking();
 });
+
+refreshRanking();
 
 async function refreshRanking() {
     const disciplineEl = document.getElementById('rank-discipline');
