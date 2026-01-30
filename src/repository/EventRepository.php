@@ -34,8 +34,7 @@ class EventRepository extends Repository {
 
     public function getEvents(): array {
         $result = [];
-        $query = $this->database->connect()->prepare($this->getBaseQuery() . ' ORDER BY date ASC');
-        $query->execute();
+        $query = $this->database->execute($this->getBaseQuery() . ' ORDER BY date ASC');
         $events = $query->fetchAll(PDO::FETCH_ASSOC);
     
         foreach ($events as $event) {
@@ -46,8 +45,7 @@ class EventRepository extends Repository {
     }
 
     public function getFeaturedEvent(): ?Event {
-        $query = $this->database->connect()->prepare($this->getBaseQuery() . ' WHERE is_featured = TRUE LIMIT 1');
-        $query->execute();
+        $query = $this->database->execute($this->getBaseQuery() . ' WHERE is_featured = TRUE LIMIT 1');
         $event = $query->fetch(PDO::FETCH_ASSOC);
 
         return $event ? $this->mapToEvent($event) : null;
@@ -61,9 +59,7 @@ class EventRepository extends Repository {
         $sql .= ($status === 'UPCOMING') ? ' WHERE e.date >= :now' : ' WHERE e.date < :now';
         $sql .= ' ORDER BY e.date ASC';
 
-        $query = $this->database->connect()->prepare($sql);
-        $query->bindParam(':now', $now);
-        $query->execute();
+        $query = $this->database->execute($sql, ['now' => $now]);
         $events = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($events as $event) {
@@ -77,11 +73,9 @@ class EventRepository extends Repository {
         $result = [];
         $searchString = '%' . strtolower($searchString) . '%';
 
-        $query = $this->database->connect()->prepare(
+        $query = $this->database->execute(
             $this->getBaseQuery() . ' WHERE LOWER(e.title) LIKE :search OR LOWER(e.location) LIKE :search ORDER BY e.date ASC'
-        );
-        $query->bindParam(':search', $searchString, PDO::PARAM_STR);
-        $query->execute();
+        , ['search' => $searchString]);
         $events = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($events as $event) {
@@ -92,9 +86,7 @@ class EventRepository extends Repository {
     }
 
     public function getEventById(int $id): ?Event {
-        $query = $this->database->connect()->prepare($this->getBaseQuery() . ' WHERE e.id = :id');
-        $query->bindParam(':id', $id, PDO::PARAM_INT);
-        $query->execute();
+        $query = $this->database->execute($this->getBaseQuery() . ' WHERE e.id = :id', ['id' => $id]);
         $event = $query->fetch(PDO::FETCH_ASSOC);
 
         if (!$event) return null;
@@ -103,25 +95,23 @@ class EventRepository extends Repository {
     }
 
     public function getUniqueDisciplines(): array {
-        $query = $this->database->connect()->prepare('
+        $query = $this->database->execute('
             SELECT DISTINCT UPPER(discipline) AS discipline 
             FROM events 
             WHERE discipline IS NOT NULL 
             ORDER BY discipline ASC
         ');
-        $query->execute();
 
         return $query->fetchAll(PDO::FETCH_COLUMN);
     }
 
     public function getUniqueLocations(): array {
-        $query = $this->database->connect()->prepare('
+        $query = $this->database->execute('
             SELECT DISTINCT UPPER(location) AS location 
             FROM events 
             WHERE location IS NOT NULL 
             ORDER BY location ASC
         ');
-        $query->execute();
 
         return $query->fetchAll(PDO::FETCH_COLUMN);
     }
@@ -164,11 +154,7 @@ class EventRepository extends Repository {
             $params['selected_date'] = $filters['date'];
         }
 
-        $query = $this->database->connect()->prepare($sql . ' ORDER BY e.date ASC');
-        foreach ($params as $key => $value) {
-            $query->bindValue(':' . $key, $value);
-        }
-        $query->execute();
+        $query = $this->database->execute($sql . ' ORDER BY e.date ASC', $params);
         $eventsData = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($eventsData as $event) {
@@ -179,7 +165,7 @@ class EventRepository extends Repository {
     }
 
     public function getEventResults(int $eventId): array {
-        $query = $this->database->connect()->prepare('
+        $query = $this->database->execute('
             SELECT 
                 f.result, f.method, f.fight_date,
                 ud1.firstname as fighter_firstname, ud1.lastname as fighter_lastname,
@@ -193,9 +179,7 @@ class EventRepository extends Repository {
                 OR (f.result = \'DRAW\' AND f.user_id < f.opponent_id)
             )
             ORDER BY f.id ASC
-        ');
-        $query->bindParam(':id', $eventId, PDO::PARAM_INT);
-        $query->execute();
+        ', ['id' => $eventId]);
 
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -6,7 +6,7 @@ require_once __DIR__.'/../models/UserProfile.php';
 class ProfileRepository extends Repository {
 
     public function getUserProfile(int $userId): ?UserProfile {
-        $query = $this->database->connect()->prepare('
+        $query = $this->database->execute('
             SELECT 
                 ud.*, u.role, c.name as club_name,
                 COALESCE(SUM(ar.wins), 0) as total_wins,
@@ -18,9 +18,7 @@ class ProfileRepository extends Repository {
             LEFT JOIN v_athlete_records ar ON u.id = ar.user_id
             WHERE ud.user_id = :id
             GROUP BY ud.id, u.role, c.name
-        ');
-        $query->bindParam(':id', $userId, PDO::PARAM_INT);
-        $query->execute();
+        ', ['id' => $userId]);
         $data = $query->fetch(PDO::FETCH_ASSOC);
 
         if (!$data) return null;
@@ -40,24 +38,19 @@ class ProfileRepository extends Repository {
     }
 
     public function getUserHistory(int $userId): array {
-        $query = $this->database->connect()->prepare('
+        $query = $this->database->execute('
             SELECT * FROM v_user_fights WHERE user_id = :id ORDER BY fight_date DESC
-        ');
-        $query->bindParam(':id', $userId, PDO::PARAM_INT);
-        $query->execute();
+        ', ['id' => $userId]);
 
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getUserHistoryByDiscipline(int $userId, string $discipline): array {
-        $query = $this->database->connect()->prepare('
+        $query = $this->database->execute('
             SELECT * FROM v_user_fights 
             WHERE user_id = :id AND UPPER(discipline) = :discipline 
             ORDER BY fight_date DESC
-        ');
-        $query->bindParam(':id', $userId, PDO::PARAM_INT);
-        $query->bindParam(':discipline', $discipline, PDO::PARAM_STR);
-        $query->execute();
+        ', ['id' => $userId, 'discipline' => $discipline]);
 
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -7,13 +7,12 @@ class UserRepository extends Repository {
 
     public function getUsers(): array {
         $result = [];
-        $query = $this->database->connect()->prepare('
+        $query = $this->database->execute('
             SELECT u.id, u.email, u.role, ud.firstname, ud.lastname 
             FROM users u 
             LEFT JOIN user_details ud ON u.id = ud.user_id 
             ORDER BY u.id ASC
         ');
-        $query->execute();
         $users = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($users as $user) {
@@ -30,14 +29,12 @@ class UserRepository extends Repository {
     }
 
     public function getUserById(int $id): ?User {
-        $query = $this->database->connect()->prepare('
+        $query = $this->database->execute('
             SELECT u.*, ud.firstname, ud.lastname 
             FROM users u 
             LEFT JOIN user_details ud ON u.id = ud.user_id 
             WHERE u.id = :id
-        ');
-        $query->bindParam(':id', $id, PDO::PARAM_INT);
-        $query->execute();
+        ', ['id' => $id]);
 
         $userRow = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -56,14 +53,12 @@ class UserRepository extends Repository {
     }
 
     public function getUserByEmail(string $email): ?User {
-        $query = $this->database->connect()->prepare('
+        $query = $this->database->execute('
             SELECT u.*, ud.firstname, ud.lastname 
             FROM users u 
             LEFT JOIN user_details ud ON u.id = ud.user_id 
             WHERE u.email = :email
-        ');
-        $query->bindParam(':email', $email, PDO::PARAM_STR);
-        $query->execute();
+        ', ['email' => $email]);
 
         $userRow = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -150,9 +145,7 @@ class UserRepository extends Repository {
     }
 
     public function deleteUser(int $id): bool {
-        $query = $this->database->connect()->prepare('DELETE FROM users WHERE id = :id');
-        $query->bindParam(':id', $id, PDO::PARAM_INT);
-
-        return $query->execute();
+        $this->database->execute('DELETE FROM users WHERE id = :id', ['id' => $id]);
+        return true;
     }
 }
