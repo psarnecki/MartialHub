@@ -1,8 +1,9 @@
 <?php
 
-// Database configuration example
 
-const USERNAME = "your_username";
-const PASSWORD = "your_password";
-const HOST = "db";
-const DATABASE = "db";
+// Configuration example
+
+define('USERNAME', getenv('DB_USER') ?: 'docker');
+define('PASSWORD', getenv('DB_PASSWORD') ?: 'docker');
+define('HOST', getenv('DB_HOST') ?: 'db');
+define('DATABASE', getenv('DB_NAME') ?: 'db');

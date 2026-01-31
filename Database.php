@@ -61,4 +61,20 @@ class Database {
     public function disconnect() {
         $this->conn = null;
     }
+
+    public function seed(): void {
+        $seedFile = __DIR__ . '/docker/db/seed_data.sql';
+        if (!file_exists($seedFile)) {
+            return;
+        }
+        
+        $sql = file_get_contents($seedFile);
+        $this->connect()->exec($sql);
+    }
+
+    public function shouldSeed(): bool {
+        $result = $this->execute("SELECT COUNT(*) as count FROM clubs");
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        return $row['count'] == 0;
+    }
 }
