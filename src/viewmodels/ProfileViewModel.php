@@ -1,7 +1,7 @@
 <?php
 
 
-class UserProfile {
+class ProfileViewModel {
     private $id;
     private $firstName;
     private $lastName;

@@ -2,25 +2,28 @@
 
 require_once 'Repository.php';
 require_once __DIR__.'/../models/Event.php';
+require_once __DIR__.'/../viewmodels/EventViewModel.php';
 
 class EventRepository extends Repository {
 
-    private function mapToEvent(array $event): Event {
-        return new Event(
-            $event['title'],
-            $event['discipline'],
-            $event['description'],
-            $event['organizer_email'] ?? null,
-            $event['organizer_phone'] ?? null,
-            $event['date'],
-            $event['location'],
-            $event['country'],
-            $event['registration_fee'],
-            $event['registration_deadline'],
-            $event['image_url'],
-            $event['id'],
-            $event['is_featured']
+    private function mapToEventViewModel(array $data): EventViewModel {
+        $event = new Event(
+            $data['title'],
+            $data['discipline'],
+            $data['description'],
+            $data['organizer_email'] ?? null,
+            $data['organizer_phone'] ?? null,
+            $data['date'],
+            $data['location'],
+            $data['country'],
+            $data['registration_fee'],
+            $data['registration_deadline'],
+            $data['image_url'],
+            $data['id'],
+            $data['is_featured']
         );
+        
+        return new EventViewModel($event);
     }
 
     private function getBaseQuery(): string {
@@ -38,17 +41,17 @@ class EventRepository extends Repository {
         $events = $query->fetchAll(PDO::FETCH_ASSOC);
     
         foreach ($events as $event) {
-            $result[] = $this->mapToEvent($event);
+            $result[] = $this->mapToEventViewModel($event);
         }
 
         return $result;
     }
 
-    public function getFeaturedEvent(): ?Event {
+    public function getFeaturedEvent(): ?EventViewModel {
         $query = $this->database->execute($this->getBaseQuery() . ' WHERE is_featured = TRUE LIMIT 1');
         $event = $query->fetch(PDO::FETCH_ASSOC);
 
-        return $event ? $this->mapToEvent($event) : null;
+        return $event ? $this->mapToEventViewModel($event) : null;
     }
 
     public function getEventsByStatus(string $status): array {
@@ -63,7 +66,7 @@ class EventRepository extends Repository {
         $events = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($events as $event) {
-            $result[] = $this->mapToEvent($event);
+            $result[] = $this->mapToEventViewModel($event);
         }
 
         return $result;
@@ -79,19 +82,19 @@ class EventRepository extends Repository {
         $events = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($events as $event) {
-            $result[] = $this->mapToEvent($event);
+            $result[] = $this->mapToEventViewModel($event);
         }
 
         return $result;
     }
 
-    public function getEventById(int $id): ?Event {
+    public function getEventById(int $id): ?EventViewModel {
         $query = $this->database->execute($this->getBaseQuery() . ' WHERE e.id = :id', ['id' => $id]);
         $event = $query->fetch(PDO::FETCH_ASSOC);
 
         if (!$event) return null;
 
-        return $this->mapToEvent($event);
+        return $this->mapToEventViewModel($event);
     }
 
     public function getUniqueDisciplines(): array {
@@ -158,7 +161,7 @@ class EventRepository extends Repository {
         $eventsData = $query->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($eventsData as $event) {
-            $result[] = $this->mapToEvent($event);
+            $result[] = $this->mapToEventViewModel($event);
         }
         
         return $result;
@@ -222,7 +225,6 @@ class EventRepository extends Repository {
         try {
             $db->beginTransaction();
 
-            // Check if event exists and fetch data
             $query = $db->prepare('SELECT capacity, registration_deadline FROM events WHERE id = :id FOR UPDATE');
             $query->execute(['id' => $eventId]);
             $event = $query->fetch(PDO::FETCH_ASSOC);

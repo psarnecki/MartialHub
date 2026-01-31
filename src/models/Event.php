@@ -70,16 +70,6 @@ class Event {
         return $this->date; 
     }
 
-    public function getFormattedDate(): string {
-        $date = new DateTime($this->date);
-        return $date->format('Y-m-d H:i');
-    }
-
-    public function getFormattedDay(): string {
-        $date = new DateTime($this->date);
-        return $date->format('d.m.Y'); 
-    }
-
     public function getLocation(): string { 
         return $this->location; 
     }
@@ -93,8 +83,7 @@ class Event {
     }
 
     public function getRegistrationDeadline(): string {
-        $date = new DateTime($this->registrationDeadline);
-        return $date->format('l, j F Y');
+        return $this->registrationDeadline;
     }
 
     public function getImageUrl(): string { 
@@ -107,26 +96,5 @@ class Event {
 
     public function isFeatured(): bool {
         return $this->isFeatured;
-    }
-
-    public function getDaysToRegistrationEnd(): string {
-        $deadline = new DateTime($this->registrationDeadline);
-        $now = new DateTime();
-
-        if ($now > $deadline) return "Closed";
-        
-        $diff = $now->diff($deadline);
-
-        return $diff->days === 0 ? "Ends today" : "Ends in " . $diff->days . " days";
-    }
-
-    public function isRegistrationOpen(): bool {
-        if (!$this->registrationDeadline) {
-            return false;
-        }
-        $deadline = new DateTime($this->registrationDeadline);
-        $now = new DateTime();
-        
-        return $now <= $deadline;
     }
 }

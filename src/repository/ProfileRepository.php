@@ -1,11 +1,11 @@
 <?php
 
 require_once 'Repository.php';
-require_once __DIR__.'/../models/UserProfile.php';
+require_once __DIR__.'/../viewmodels/ProfileViewModel.php';
 
 class ProfileRepository extends Repository {
 
-    public function getUserProfile(int $userId): ?UserProfile {
+    public function getUserProfile(int $userId): ?ProfileViewModel {
         $query = $this->database->execute('
             SELECT 
                 ud.*, u.role, c.name as club_name,
@@ -23,7 +23,7 @@ class ProfileRepository extends Repository {
 
         if (!$data) return null;
 
-        return new UserProfile(
+        return new ProfileViewModel(
             $data['user_id'],
             $data['firstname'], 
             $data['lastname'], 
