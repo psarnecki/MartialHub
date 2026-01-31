@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/public/images/favicon.png">
     <link rel="stylesheet" href="public/styles/main.css">
     <link rel="stylesheet" href="public/styles/index.css">
     <script src="public/scripts/main.js" defer></script>
@@ -15,7 +16,7 @@
     
     <main class="main-content">
         <?php if(isset($featuredEvent)): ?>
-        <header class="hero-container" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('<?= $featuredEvent->getImageUrl(); ?>');">
+        <header class="hero-container" style="background-image: url('<?= $featuredEvent->getImageUrl(); ?>');">
             <h1><?= $featuredEvent->getTitle(); ?></h1>
             <p><?= $featuredEvent->getFormattedDate(); ?>, <?= $featuredEvent->getLocation(); ?></p>
             <div class="hero-btns">
@@ -35,7 +36,7 @@
                 <?php foreach ($events as $event): ?>
                     <a href="/events/<?= $event->getId(); ?>" class="event-card">
                         <div class="img-placeholder">
-                            <img src="<?= $event->getImageUrl(); ?>" alt="">
+                            <img src="<?= $event->getImageUrl(); ?>" alt="<?= $event->getTitle(); ?>">
                         </div>
                         <h3><?= $event->getTitle(); ?></h3>
                         <p><?= $event->getFormattedDate(); ?>, <?= $event->getLocation(); ?></p>

@@ -70,7 +70,7 @@ function updateProfileUI(fights, discipline) {
     const banner = document.querySelector('.record-badge');
 
     if (fights.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No history for this discipline.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No history for this discipline.</td></tr>';
         resetCounters();
         if (banner) banner.innerText = `${discipline} RECORD: 0 - 0 - 0`;
         

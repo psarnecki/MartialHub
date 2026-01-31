@@ -5,7 +5,6 @@
     margin-bottom: 1.25rem;
     overflow: hidden;
     background-color: #222;
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1555597673-b21d5c935865?q=80&w=1600');
     background-size: cover;
     background-position: center;
     display: flex;

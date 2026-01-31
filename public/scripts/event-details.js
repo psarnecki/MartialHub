@@ -28,8 +28,8 @@ if (tabsContainer) {
                 if (tabName === 'RESULTS') {
                     mainColumn.innerHTML = `
                         <h2>Tournament Results</h2>
-                        <div style="padding: 3rem 0; text-align: center; color: var(--text-gray);">
-                            <p style="font-weight: 700; font-size: 1.2rem;">
+                        <div class="placeholder-loading">
+                            <p class="placeholder-loading-title">
                                 Loading results
                             </p>
                             <p>
@@ -84,9 +84,9 @@ function getPlaceholderMessage(tabName, isPast) {
     }
 
     return `
-        <div style="padding: 4rem 0; text-align: center; color: var(--text-gray);">
-            <p style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--nav-black);">${message}</p>
-            <p style="font-size: 0.9rem;">${submessage}</p>
+        <div class="placeholder-container">
+            <p class="placeholder-title">${message}</p>
+            <p class="placeholder-message">${submessage}</p>
         </div>
     `;
 }
@@ -110,8 +110,8 @@ async function fetchResults(eventId, container, isPast) {
 
             container.innerHTML = `
                 <h2>Tournament Results</h2>
-                <div style="padding: 4rem 0; text-align: center; color: var(--text-gray); max-width: 480px; margin: 0 auto;">
-                    <p style="font-weight: 800; font-size: 1.5rem; color: var(--nav-black); margin-bottom: 0.75rem;">
+                <div class="placeholder-container placeholder-narrow">
+                    <p class="placeholder-title">
                         ${title}
                     </p>
                     <p>${message}</p>

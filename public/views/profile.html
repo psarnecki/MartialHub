@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/public/images/favicon.png">
     <link rel="stylesheet" href="/public/styles/main.css">
     <link rel="stylesheet" href="/public/styles/profile.css">
     <script src="/public/scripts/main.js" defer></script>
@@ -15,7 +16,7 @@
 
     <main class="profile-main-content" data-user-id="<?= $profile->getId(); ?>">
         <section class="fighter-header">
-            <img src="<?= $profile->getImageUrl(); ?>" class="fighter-photo" alt="Athlete">
+            <img src="<?= $profile->getImageUrl(); ?>" class="fighter-photo" alt="<?= $profile->getFullName(); ?>">
             <div class="fighter-info-box">
                 <div>
                     <h1 class="fighter-name"><?= strtoupper($profile->getFullName()); ?></h1>
@@ -87,7 +88,7 @@
                         </tr>
                         <?php endforeach; else: ?>
                         <tr>
-                            <td colspan="5" style="text-align: center; color: var(--text-gray); padding: 2rem;">
+                            <td colspan="5" class="empty-state">
                                 No fight history available for this athlete.
                             </td>
                         </tr>

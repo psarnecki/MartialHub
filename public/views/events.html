@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/public/images/favicon.png">
     <link rel="stylesheet" href="public/styles/main.css">
     <link rel="stylesheet" href="public/styles/events.css">
     <script src="public/scripts/main.js" defer></script>
@@ -59,7 +60,7 @@
                         <?php foreach ($events as $event): ?>
                             <a href="/events/<?= $event->getId(); ?>" class="event-card-small">
                                 <div class="img-wrap-small">
-                                    <img src="<?= $event->getImageUrl(); ?>" alt="">
+                                    <img src="<?= $event->getImageUrl(); ?>" alt="<?= $event->getTitle(); ?>">
                                 </div>
                                 <h3><?= $event->getTitle(); ?></h3>
                                 <p class="meta"><?= $event->getFormattedDay(); ?>, <?= $event->getLocation(); ?></p>

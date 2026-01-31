@@ -88,10 +88,6 @@
 }
 
 @media (max-width: 768px) {
-    * {
-        -webkit-tap-highlight-color: transparent;
-    }
-
     .auth-container {
         padding: 1rem;
         min-height: calc(100vh - 5rem);

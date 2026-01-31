@@ -163,6 +163,12 @@
     color: var(--text-dark);
 }
 
+td.empty-state {
+    text-align: center;
+    color: var(--text-gray);
+    padding: 2rem;
+}
+
 .result-badge {
     display: inline-flex;
     justify-content: center;
@@ -180,10 +186,6 @@
 .text-gray { color: var(--text-gray) }
 
 @media (max-width: 768px) {
-    * {
-        -webkit-tap-highlight-color: transparent;
-    }
-
     .profile-main-content {
         padding: 1.875rem 1.25rem;
     }

@@ -86,7 +86,7 @@ async function applyFilters() {
                 card.className = 'event-card-small';
                 card.innerHTML = `
                     <div class="img-wrap-small">
-                        <img src="${eventData.imageUrl}" alt="">
+                        <img src="${eventData.imageUrl}" alt="${eventData.title}">
                     </div>
                     <h3>${eventData.title}</h3>
                     <p class="meta">${eventData.day}, ${eventData.location}</p>
@@ -96,7 +96,7 @@ async function applyFilters() {
                 card.className = 'event-card';
                 card.innerHTML = `
                     <div class="img-placeholder">
-                        <img src="${eventData.imageUrl}" alt="">
+                        <img src="${eventData.imageUrl}" alt="${eventData.title}">
                     </div>
                     <h3>${eventData.title}</h3>
                     <p>${eventData.date}, ${eventData.location}</p>
