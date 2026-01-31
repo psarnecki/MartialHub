@@ -24,7 +24,7 @@ class RankingController extends AppController {
 
         $ranking = $this->rankingRepository->getRanking(
             strtoupper($data['discipline']), 
-            strtoupper($data['type'])
+            $data['type']
         );
 
         echo json_encode($ranking);
