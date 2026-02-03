@@ -32,6 +32,11 @@ class SecurityController extends AppController {
             return $this->render('login', ['messages' => ['Invalid input length!']]);
         }
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            return $this->render('login', ['messages' => ['Invalid email format.']]);
+        }
+
         $user = $this->userRepository->getUserByEmail($email);
 
         if (!$user) {
@@ -86,6 +91,11 @@ class SecurityController extends AppController {
         if (empty($email) || empty($password) || empty($firstName) || empty($lastName)) {
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
             return $this->render('register', ['messages' => ['Please fill all fields!']]);
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            return $this->render('register', ['messages' => ['Invalid email format.']]);
         }
 
         if (strlen($email) > 255 || strlen($password) > 128 || strlen($firstName) > 100 || strlen($lastName) > 100) {
