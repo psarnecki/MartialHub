@@ -1,4 +1,8 @@
 .vscode
 .vs
-config.php
 .env
+.phpunit.result.cache
+
+config.php
+
+vendor/
