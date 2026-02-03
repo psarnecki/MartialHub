@@ -26,7 +26,7 @@
                     <select id="filter-discipline">
                         <option>ALL DISCIPLINES</option>
                         <?php if(isset($disciplines)): foreach($disciplines as $d): ?>
-                            <option value="<?= $d ?>"><?= $d ?></option>
+                            <option value="<?= htmlspecialchars($d) ?>"><?= htmlspecialchars($d) ?></option>
                         <?php endforeach; endif; ?>
                     </select>
                 </div>
@@ -35,7 +35,7 @@
                     <select id="filter-location">
                         <option>ALL LOCATIONS</option>
                         <?php if(isset($locations)): foreach($locations as $l): ?>
-                            <option value="<?= $l ?>"><?= $l ?></option>
+                            <option value="<?= htmlspecialchars($l) ?>"><?= htmlspecialchars($l) ?></option>
                         <?php endforeach; endif; ?>
                     </select>
                 </div>
@@ -60,11 +60,11 @@
                         <?php foreach ($events as $event): ?>
                             <a href="/events/<?= $event->getId(); ?>" class="event-card-small">
                                 <div class="img-wrap-small">
-                                    <img src="<?= $event->getImageUrl(); ?>" alt="<?= $event->getTitle(); ?>">
+                                    <img src="<?= htmlspecialchars($event->getImageUrl()); ?>" alt="<?= htmlspecialchars($event->getTitle()); ?>">
                                 </div>
-                                <h3><?= $event->getTitle(); ?></h3>
-                                <p class="meta"><?= $event->getFormattedDay(); ?>, <?= $event->getLocation(); ?></p>
-                                <p class="category"><?= $event->getDiscipline(); ?></p>
+                                <h3><?= htmlspecialchars($event->getTitle()); ?></h3>
+                                <p class="meta"><?= $event->getFormattedDay(); ?>, <?= htmlspecialchars($event->getLocation()); ?></p>
+                                <p class="category"><?= htmlspecialchars($event->getDiscipline()); ?></p>
                             </a>
                         <?php endforeach; ?>
                     <?php endif; ?>

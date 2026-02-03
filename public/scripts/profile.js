@@ -99,8 +99,8 @@ function updateProfileUI(fights, discipline) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td><span class="result-badge ${res.toLowerCase()}-bg">${res}</span></td>
-            <td>${fight.opponent_firstname} ${fight.opponent_lastname}</td>
-            <td class="text-gray">${fight.event_name}</td>
+            <td>${escapeHtml(fight.opponent_firstname)} ${escapeHtml(fight.opponent_lastname)}</td>
+            <td class="text-gray">${escapeHtml(fight.event_name)}</td>
             <td class="text-gray">${fight.method}</td>
             <td class="text-gray">${new Date(fight.fight_date).toLocaleDateString('pl-PL')}</td>
         `;

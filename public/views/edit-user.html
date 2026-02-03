@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/public/styles/admin.css">
     <script src="/public/scripts/main.js" defer></script>
 
-    <title>Edit <?php echo $user->getFirstName() . ' ' . $user->getLastName(); ?> – MartialHub</title>
+    <title>Edit <?php echo htmlspecialchars($user->getFirstName() . ' ' . $user->getLastName()); ?> – MartialHub</title>
 </head>
 <body>
     <?php include __DIR__ . '/partials/navbar.php'; ?>
@@ -17,17 +17,17 @@
         <div class="edit-user-wrapper">
             <div class="edit-user-card">
                 <h2 class="admin-title edit-user-title">Edit User</h2>
-                <p class="edit-user-email"><?= $user->getEmail() ?></p>
+                <p class="edit-user-email"><?= htmlspecialchars($user->getEmail()) ?></p>
                 
                 <form action="/editUser/<?= $user->getId() ?>" method="POST">
                     <div class="form-group">
                         <label class="form-label">First Name</label>
-                        <input class="form-input" name="firstname" type="text" value="<?= $user->getFirstName() ?>" required>
+                        <input class="form-input" name="firstname" type="text" value="<?= htmlspecialchars($user->getFirstName()) ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Last Name</label>
-                        <input class="form-input" name="lastname" type="text" value="<?= $user->getLastName() ?>" required>
+                        <input class="form-input" name="lastname" type="text" value="<?= htmlspecialchars($user->getLastName()) ?>" required>
                     </div>
 
                     <div class="form-group">

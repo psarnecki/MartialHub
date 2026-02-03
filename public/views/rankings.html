@@ -29,7 +29,7 @@
                 <select class="filter-select" id="rank-discipline" onchange="refreshRanking()">
                     <option value="" disabled selected>DISCIPLINE</option>
                     <?php foreach($disciplines as $d): ?>
-                        <option value="<?= $d ?>"><?= $d ?></option>
+                        <option value="<?= htmlspecialchars($d) ?>"><?= htmlspecialchars($d) ?></option>
                     <?php endforeach; ?>
                 </select>
                 <svg class="select-icon" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#171212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -62,8 +62,8 @@
                     ?>
                     <tr class="<?= $rowClass ?>">
                         <td><?= $pos++ ?></td>
-                        <td><b><?= $row['firstname'] . ' ' . $row['lastname'] ?></b></td>
-                        <td class="<?= $rowClass ? '' : 'rank-other' ?>"><?= $row['club_name'] ?? 'Independent' ?></td>
+                        <td><b><?= htmlspecialchars($row['firstname'] . ' ' . $row['lastname']) ?></b></td>
+                        <td class="<?= $rowClass ? '' : 'rank-other' ?>"><?= htmlspecialchars($row['club_name'] ?? 'Independent') ?></td>
                         <td><?= $row['points'] ?></td>
                         <td class="<?= $rowClass ? '' : 'rank-other' ?>"><b><?= $row['wins'] ?>-<?= $row['losses'] ?>-<?= $row['draws'] ?></b></td>
                     </tr>

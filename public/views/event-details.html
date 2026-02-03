@@ -9,7 +9,7 @@
     <script src="/public/scripts/main.js" defer></script>
     <script src="/public/scripts/event-details.js" defer></script>
     
-    <title><?= $event->getTitle(); ?> – MartialHub</title>
+    <title><?= htmlspecialchars($event->getTitle()); ?> – MartialHub</title>
 </head>
 <body>
     <?php include 'partials/navbar.php'; ?>
@@ -20,9 +20,9 @@
             <div class="main-column">
                 <div class="hero-container-padding">
                     <header class="hero-wrapper">
-                        <img src="<?= $event->getImageUrl(); ?>" alt="<?= $event->getTitle(); ?>">
+                        <img src="<?= htmlspecialchars($event->getImageUrl()); ?>" alt="<?= htmlspecialchars($event->getTitle()); ?>">
                         <div class="hero-text-overlay">
-                            <h1><?= $event->getTitle(); ?></h1>
+                            <h1><?= htmlspecialchars($event->getTitle()); ?></h1>
                         </div>
                     </header>
                 </div>
@@ -36,7 +36,7 @@
 
                 <div class="details-main">
                     <h2>ABOUT THE TOURNAMENT</h2>
-                    <p class="details-description"><?= $event->getDescription(); ?></p>
+                    <p class="details-description"><?= htmlspecialchars($event->getDescription()); ?></p>
 
                     <h2>REQUIREMENTS</h2>
                     <div class="req-item"><div class="req-check"></div> Registration via MartialHub</div>
@@ -66,8 +66,8 @@
                 <div class="sidebar-card">
                     <h3>EVENT INFO</h3>
                     <div class="info-line">📅 Date: <b id="event-date-val"><?= date('l, j F Y', strtotime($event->getDate())); ?></b></div>
-                    <div class="info-line">📍 Location: <b><?= $event->getLocation(); ?>, <?= $event->getCountry(); ?></b></div>
-                    <div class="info-line">🥋 Discipline: <b><?= $event->getDiscipline(); ?></b></div>
+                    <div class="info-line">📍 Location: <b><?= htmlspecialchars($event->getLocation()); ?>, <?= htmlspecialchars($event->getCountry()); ?></b></div>
+                    <div class="info-line">🥋 Discipline: <b><?= htmlspecialchars($event->getDiscipline()); ?></b></div>
                 </div>
 
                 <div class="sidebar-card">
@@ -76,7 +76,7 @@
 
                     <p class="deadline-label">Registration deadline:</p>
                     <p class="deadline-date"><?= $event->getFormattedRegistrationDeadline(); ?></p>
-                    <p class="urgency-text"><?= $event->getDaysToRegistrationEnd(); ?></p>
+                    <p class="urgency-text"><?= htmlspecialchars($event->getDaysToRegistrationEnd()); ?></p>
                     <p class="spots-left">
                         <span id="spots-left"><?= $spotsLeft; ?></span> spots remaining
                     </p>
@@ -118,8 +118,8 @@
 
                 <div class="sidebar-card">
                     <h3>CONTACT</h3>
-                    <p class="contact-item"><?= $event->getOrganizerEmail(); ?></p>
-                    <p class="contact-item"><?= $event->getOrganizerPhone(); ?></p>
+                    <p class="contact-item"><?= htmlspecialchars($event->getOrganizerEmail()); ?></p>
+                    <p class="contact-item"><?= htmlspecialchars($event->getOrganizerPhone()); ?></p>
                     <a href="mailto:<?= $event->getOrganizerEmail(); ?>?subject=Inquiry%20about%20<?= rawurlencode($event->getTitle()); ?>" 
                         class="btn-sidebar btn-sidebar-grey">
                         SEND MESSAGE

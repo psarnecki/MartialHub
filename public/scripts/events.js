@@ -86,20 +86,20 @@ async function applyFilters() {
                 card.className = 'event-card-small';
                 card.innerHTML = `
                     <div class="img-wrap-small">
-                        <img src="${eventData.imageUrl}" alt="${eventData.title}">
+                        <img src="${escapeHtml(eventData.imageUrl)}" alt="${escapeHtml(eventData.title)}">
                     </div>
-                    <h3>${eventData.title}</h3>
-                    <p class="meta">${eventData.day}, ${eventData.location}</p>
-                    <p class="category">${eventData.discipline}</p>
+                    <h3>${escapeHtml(eventData.title)}</h3>
+                    <p class="meta">${eventData.day}, ${escapeHtml(eventData.location)}</p>
+                    <p class="category">${escapeHtml(eventData.discipline)}</p>
                 `;
             } else {
                 card.className = 'event-card';
                 card.innerHTML = `
                     <div class="img-placeholder">
-                        <img src="${eventData.imageUrl}" alt="${eventData.title}">
+                        <img src="${escapeHtml(eventData.imageUrl)}" alt="${escapeHtml(eventData.title)}">
                     </div>
-                    <h3>${eventData.title}</h3>
-                    <p>${eventData.date}, ${eventData.location}</p>
+                    <h3>${escapeHtml(eventData.title)}</h3>
+                    <p>${eventData.date}, ${escapeHtml(eventData.location)}</p>
                 `;
             }
             grid.appendChild(card);

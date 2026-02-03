@@ -9,18 +9,18 @@
     <script src="/public/scripts/main.js" defer></script>
     <script src="/public/scripts/profile.js" defer></script>
 
-    <title><?= $profile->getFullName(); ?> – MartialHub</title>
+    <title><?= htmlspecialchars($profile->getFullName()); ?> – MartialHub</title>
 </head>
 <body>
     <?php include 'partials/navbar.php'; ?>
 
     <main class="profile-main-content" data-user-id="<?= $profile->getId(); ?>">
         <section class="fighter-header">
-            <img src="<?= $profile->getImageUrl(); ?>" class="fighter-photo" alt="<?= $profile->getFullName(); ?>">
+            <img src="<?= htmlspecialchars($profile->getImageUrl()); ?>" class="fighter-photo" alt="<?= htmlspecialchars($profile->getFullName()); ?>">
             <div class="fighter-info-box">
                 <div>
-                    <h1 class="fighter-name"><?= strtoupper($profile->getFullName()); ?></h1>
-                    <p class="fighter-club-name"><?= strtoupper($profile->getClubName()); ?></p>
+                    <h1 class="fighter-name"><?= htmlspecialchars(strtoupper($profile->getFullName())); ?></h1>
+                    <p class="fighter-club-name"><?= htmlspecialchars(strtoupper($profile->getClubName())); ?></p>
                 </div>
                 <?php if($profile->getRole() === 'user'): ?>
                     <div class="record-badge">MMA RECORD: <?= $profile->getRecord(); ?></div>
@@ -81,8 +81,8 @@
                                     <?= $fight['result'] ?>
                                 </span>
                             </td>
-                            <td><?= $fight['opponent_firstname'] . ' ' . $fight['opponent_lastname'] ?></td>
-                            <td class="text-gray"><?= $fight['event_name'] ?></td>
+                            <td><?= htmlspecialchars($fight['opponent_firstname'] . ' ' . $fight['opponent_lastname']) ?></td>
+                            <td class="text-gray"><?= htmlspecialchars($fight['event_name']) ?></td>
                             <td class="text-gray"><?= $fight['method'] ?></td>
                             <td class="text-gray"><?= date('d.m.Y', strtotime($fight['fight_date'])) ?></td>
                         </tr>

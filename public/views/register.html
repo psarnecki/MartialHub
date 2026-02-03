@@ -19,7 +19,7 @@
             
             <?php if(isset($messages)): ?>
                 <div class="messages">
-                    <?php foreach($messages as $m) echo $m; ?>
+                    <?php foreach($messages as $m) echo htmlspecialchars($m); ?>
                 </div>
             <?php endif; ?>
             

@@ -50,8 +50,8 @@ function renderTable(data) {
             return `
                 <tr class="${rankClass}">
                     <td>${i + 1}</td>
-                    <td><b>${row.firstname} ${row.lastname}</b></td>
-                    <td class="${otherClass}">${row.club_name || 'Independent'}</td>
+                    <td><b>${escapeHtml(row.firstname)} ${escapeHtml(row.lastname)}</b></td>
+                    <td class="${otherClass}">${escapeHtml(row.club_name || 'Independent')}</td>
                     <td>${row.points}</td>
                     <td class="${otherClass}"><b>${row.wins}-${row.losses}-${row.draws}</b></td>
                 </tr>`;
@@ -64,7 +64,7 @@ function renderTable(data) {
             return `
                 <tr class="${rankClass}">
                     <td>${i + 1}</td>
-                    <td><b>${row.club_name}</b></td>
+                    <td><b>${escapeHtml(row.club_name)}</b></td>
                     <td class="${otherClass}">${row.athlete_count}</td>
                     <td class="${otherClass}">${row.total_wins}</td>
                     <td class="${otherClass}"><b>${row.total_points}</b></td>

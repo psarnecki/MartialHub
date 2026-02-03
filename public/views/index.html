@@ -16,9 +16,9 @@
     
     <main class="main-content">
         <?php if(isset($featuredEvent)): ?>
-        <header class="hero-container" style="background-image: url('<?= $featuredEvent->getImageUrl(); ?>');">
-            <h1><?= $featuredEvent->getTitle(); ?></h1>
-            <p><?= $featuredEvent->getFormattedDate(); ?>, <?= $featuredEvent->getLocation(); ?></p>
+        <header class="hero-container" style="background-image: url('<?= htmlspecialchars($featuredEvent->getImageUrl()); ?>')">
+            <h1><?= htmlspecialchars($featuredEvent->getTitle()); ?></h1>
+            <p><?= $featuredEvent->getFormattedDate(); ?>, <?= htmlspecialchars($featuredEvent->getLocation()); ?></p>
             <div class="hero-btns">
                 <a href="/events/<?= $featuredEvent->getId(); ?>" class="btn-hero-red">SEE DETAILS</a>
                 <a href="/events" class="btn-hero-white">ALL EVENTS</a>
@@ -36,10 +36,10 @@
                 <?php foreach ($events as $event): ?>
                     <a href="/events/<?= $event->getId(); ?>" class="event-card">
                         <div class="img-placeholder">
-                            <img src="<?= $event->getImageUrl(); ?>" alt="<?= $event->getTitle(); ?>">
+                            <img src="<?= htmlspecialchars($event->getImageUrl()); ?>" alt="<?= htmlspecialchars($event->getTitle()); ?>">
                         </div>
-                        <h3><?= $event->getTitle(); ?></h3>
-                        <p><?= $event->getFormattedDate(); ?>, <?= $event->getLocation(); ?></p>
+                        <h3><?= htmlspecialchars($event->getTitle()); ?></h3>
+                        <p><?= $event->getFormattedDate(); ?>, <?= htmlspecialchars($event->getLocation()); ?></p>
                     </a>
                 <?php endforeach; ?>
             <?php endif; ?>

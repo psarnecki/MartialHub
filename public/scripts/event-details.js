@@ -40,7 +40,7 @@ if (tabsContainer) {
                     await fetchResults(eventId, mainColumn, isPast);
                 } 
                 else {
-                    mainColumn.innerHTML = `<h2>${tabName}</h2>` + getPlaceholderMessage(tabName, isPast);
+                    mainColumn.innerHTML = `<h2>${escapeHtml(tabName)}</h2>` + getPlaceholderMessage(tabName, isPast);
                 }
             }
         });
@@ -112,9 +112,9 @@ async function fetchResults(eventId, container, isPast) {
                 <h2>Tournament Results</h2>
                 <div class="placeholder-container placeholder-narrow">
                     <p class="placeholder-title">
-                        ${title}
+                        ${escapeHtml(title)}
                     </p>
-                    <p>${message}</p>
+                    <p>${escapeHtml(message)}</p>
                 </div>
             `;
             return;
@@ -127,9 +127,9 @@ async function fetchResults(eventId, container, isPast) {
             
             html += `
                 <tr>
-                    <td><b>${res.fighter_firstname} ${res.fighter_lastname}</b></td>
+                    <td><b>${escapeHtml(res.fighter_firstname)} ${escapeHtml(res.fighter_lastname)}</b></td>
                     <td><span class="result-badge ${badgeClass}">${res.result}</span></td>
-                    <td>${res.opponent_firstname} ${res.opponent_lastname}</td>
+                    <td>${escapeHtml(res.opponent_firstname)} ${escapeHtml(res.opponent_lastname)}</td>
                     <td class="text-gray">${res.method}</td>
                 </tr>`;
         });
