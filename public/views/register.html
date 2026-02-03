@@ -24,6 +24,7 @@
             <?php endif; ?>
             
             <form class="auth-form" action="/register" method="POST">
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
                 <input name="firstName" type="text" placeholder="First Name" maxlength="100" required>
                 <input name="lastName" type="text" placeholder="Last Name" maxlength="100" required>
                 <input name="email" type="email" placeholder="Email" maxlength="255" required>
