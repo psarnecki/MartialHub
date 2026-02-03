@@ -24,11 +24,11 @@
             <?php endif; ?>
             
             <form class="auth-form" action="/register" method="POST">
-                <input name="firstName" type="text" placeholder="First Name" required>
-                <input name="lastName" type="text" placeholder="Last Name" required>
-                <input name="email" type="email" placeholder="Email" required>
-                <input name="password" type="password" placeholder="Password" required>
-                <input name="password_confirm" type="password" placeholder="Confirm Password" required>
+                <input name="firstName" type="text" placeholder="First Name" maxlength="100" required>
+                <input name="lastName" type="text" placeholder="Last Name" maxlength="100" required>
+                <input name="email" type="email" placeholder="Email" maxlength="255" required>
+                <input name="password" type="password" placeholder="Password" maxlength="128" required>
+                <input name="password_confirm" type="password" placeholder="Confirm Password" maxlength="128" required>
                 <button type="submit" class="btn-auth">Register</button>
             </form>
 

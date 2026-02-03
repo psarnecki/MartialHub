@@ -21,6 +21,10 @@ class SecurityController extends AppController {
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
 
+        if (strlen($email) > 255 || strlen($password) > 128) {
+            return $this->render('login', ['messages' => ['Invalid input length!']]);
+        }
+
         $user = $this->userRepository->getUserByEmail($email);
 
         if (!$user) {
@@ -64,6 +68,10 @@ class SecurityController extends AppController {
 
         if (empty($email) || empty($password) || empty($firstName) || empty($lastName)) {
             return $this->render('register', ['messages' => ['Please fill all fields!']]);
+        }
+
+        if (strlen($email) > 255 || strlen($password) > 128 || strlen($firstName) > 100 || strlen($lastName) > 100) {
+            return $this->render('register', ['messages' => ['Input is too long!']]);
         }
 
         if ($password !== $passwordConfirm) {

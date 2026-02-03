@@ -24,8 +24,8 @@
             <?php endif; ?>
 
             <form class="auth-form" action="/login" method="POST">
-                <input name="email" type="email" placeholder="Email" required>
-                <input name="password" type="password" placeholder="Password" required>
+                <input name="email" type="email" placeholder="Email" maxlength="255" required>
+                <input name="password" type="password" placeholder="Password" maxlength="128" required>
                 <button type="submit" class="btn-auth">Log In</button>
             </form>
 
