@@ -66,8 +66,20 @@ class SecurityController extends AppController {
             return $this->render('register', ['messages' => ['Please fill all fields!']]);
         }
 
-                if ($password !== $passwordConfirm) {
+        if ($password !== $passwordConfirm) {
             return $this->render('register', ['messages' => ['Passwords should be the same!']]);
+        }
+
+        if (strlen($password) < 8) {
+            return $this->render('register', ['messages' => ['Password must be at least 8 characters long!']]);
+        }
+
+        if (!preg_match('/[A-Z]/', $password)) {
+            return $this->render('register', ['messages' => ['Password must contain at least one uppercase letter!']]);
+        }
+
+        if (!preg_match('/[0-9]/', $password)) {
+            return $this->render('register', ['messages' => ['Password must contain at least one number!']]);
         }
 
         if ($this->userRepository->getUserByEmail($email)) {
