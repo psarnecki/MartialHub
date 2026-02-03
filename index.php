@@ -3,7 +3,10 @@
 require_once 'Routing.php';
 require_once 'Database.php';
 
-ini_set('session.cookie_httponly', 1);
+session_set_cookie_params([
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
 session_start();
 
 if (getenv('SEED_DATA') === 'true') {
