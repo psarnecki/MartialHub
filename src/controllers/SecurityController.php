@@ -45,6 +45,8 @@ class SecurityController extends AppController {
         }
 
         unset($_SESSION['csrf_token']);
+        session_regenerate_id(true);
+        
         $_SESSION['user_id'] = $user->getId();
         $_SESSION['user_role'] = $user->getRole();
 
