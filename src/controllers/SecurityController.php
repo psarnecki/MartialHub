@@ -40,11 +40,19 @@ class SecurityController extends AppController {
         $user = $this->userRepository->getUserByEmail($email);
 
         if (!$user) {
+            $emailHash = hash('sha256', $email);
+            $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+            error_log("Failed login attempt - User not found. Email hash: {$emailHash}, IP: {$ip}");
+            
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
             return $this->render('login', ['messages' => ['Invalid email or password.']]);
         }
 
         if (!password_verify($password, $user->getPassword())) {
+            $emailHash = hash('sha256', $email);
+            $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+            error_log("Failed login attempt - Wrong password. Email hash: {$emailHash}, IP: {$ip}");
+            
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
             return $this->render('login', ['messages' => ['Invalid email or password.']]);
         }
