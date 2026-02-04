@@ -13,11 +13,11 @@ INSERT INTO clubs (name, city) VALUES
 INSERT INTO users (email, password, role) VALUES 
     ('admin@martialhub.com', '$2y$10$m9iYSYk9tvwcGmGiwGLMzeLiVAs4DmnBTK85AttfuxsqW3nQNt6M6', 'admin'),
     ('maciej.kawulski@martialhub.com', '$2y$10$VkD3RTJlEaVVVExuM/Lwl.pz2zsEFJvhlFxyiEZn8A0U3dmJp4tva', 'organizer'),
-    ('jan.kowalski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
-    ('adam.nowak@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
-    ('piotr.lewandowski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user'),
+    ('jan.kowalski@martialhub.com', '$2y$10$BX7LMHlrH8RrrPE/Qtx9uumP/UHoFmPDeMTItB/zyYh8dCRAY6f4K', 'user'),
+    ('adam.nowak@martialhub.com', '$2y$10$BX7LMHlrH8RrrPE/Qtx9uumP/UHoFmPDeMTItB/zyYh8dCRAY6f4K', 'user'),
+    ('piotr.lewandowski@martialhub.com', '$2y$10$BX7LMHlrH8RrrPE/Qtx9uumP/UHoFmPDeMTItB/zyYh8dCRAY6f4K', 'user'),
     ('mmapolska@martialhub.com', '$2y$10$VkD3RTJlEaVVVExuM/Lwl.pz2zsEFJvhlFxyiEZn8A0U3dmJp4tva', 'organizer'),
-    ('andrzej.wisniewski@martialhub.com', '$2y$10$jbga9l5QuJHfB.6drfTXJOY8zwvjnK17eYQtig.f5axdnuNGtz2Qq', 'user');
+    ('andrzej.wisniewski@martialhub.com', '$2y$10$BX7LMHlrH8RrrPE/Qtx9uumP/UHoFmPDeMTItB/zyYh8dCRAY6f4K', 'user');
 
 -- Initial user details
 INSERT INTO user_details (user_id, firstname, lastname, phone, bio) VALUES
@@ -95,12 +95,40 @@ INSERT INTO events (title, discipline, description, organizer_id, date, location
         'Entry-level MMA tournament designed for debuting fighters.',
         6,
         '2025-08-30 10:00:00', -- FINISHED
-        'Obroniki Śląskie',
+        'Oborniki Śląskie',
         'Poland',
         150,
         '2025-08-15 23:59:59',
         'public/img/mma_beginners.jpg',
         200,
+        FALSE
+    ),
+    (
+        'High Kick 9',
+        'Kickboxing',
+        'Professional and amateur kickboxing bouts under K-1 rules.',
+        2,
+        '2025-12-15 18:00:00', -- FINISHED
+        'Wrocław',
+        'Poland',
+        200,
+        '2025-11-30 23:59:59',
+        'public/img/kickboxing.jpg',
+        250,
+        FALSE
+    ),
+    (
+        'ALMMA 237',
+        'MMA',
+        'Amateur MMA League - tournament for debutants and beginner fighters.',
+        6,
+        '2025-12-20 15:00:00', -- FINISHED
+        'Sochaczew',
+        'Poland',
+        160,
+        '2025-12-05 23:59:59',
+        'public/img/almma_237.jpg',
+        250,
         FALSE
     ),
     (
@@ -152,8 +180,8 @@ INSERT INTO fights (user_id, opponent_id, event_id, result, method, fight_date) 
     (3, 5, 5, 'WIN', 'Submission', '2025-08-30'),
     (3, 5, 5, 'DRAW', 'Split Draw', '2025-08-30'),
     (3, 5, 2, 'LOSS', 'Submission', '2025-10-15'),
-    (3, 5, 4, 'WIN', 'KO/TKO', '2026-03-21'),
+    (3, 5, 6, 'WIN', 'KO/TKO', '2025-12-15'),
     (3, 4, 3, 'DRAW', 'Majority Draw', '2025-11-09'),
-    (3, 4, 7, 'WIN', 'Submission', '2026-05-23'),
-    (3, 5, 7, 'WIN', 'Majority Decision', '2026-05-23'),
-    (7, 5, 7, 'WIN', 'Unanimous Decision', '2026-05-23');
+    (3, 4, 7, 'WIN', 'Submission', '2025-12-20'),
+    (3, 5, 7, 'WIN', 'Majority Decision', '2025-12-20'),
+    (7, 5, 7, 'WIN', 'Unanimous Decision', '2025-12-20');
